@@ -1,7 +1,9 @@
 import type { PlasmoCSConfig } from "plasmo"
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*"]
+  matches: ["https://www.plasmo.com/*"],
+  world: "MAIN",
+  run_at: "document_start"
 }
 
 document.addEventListener("mouseup", function (event) {
@@ -19,6 +21,7 @@ document.addEventListener("mouseup", function (event) {
     button.style.left = selectionRect.left + window.screenX + "px"
     button.onclick = function () {
       document.body.classList.toggle("ext-sidebar-show", true)
+      window.mainMessage = selectedText
     }
     document.body.appendChild(button)
   }
