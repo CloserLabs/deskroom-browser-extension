@@ -1,0 +1,16 @@
+:root,
+#ext-sidebar:host {
+  --ext-sidebar-width: 420px;
+}
+
+body.ext-sidebar-show,
+body.ext-sidebar-show * {
+  max-width: calc(100vw - var(--ext-sidebar-width));
+}
+
+#ext-sidebar {
+  position: fixed;
+  z-index: 240;
+  top: 0px;
+  right: 0px;
+}

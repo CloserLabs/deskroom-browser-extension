@@ -6,7 +6,8 @@ function IndexPopup() {
   return (
     <div
       style={{
-        padding: 16
+        padding: 16,
+        borderRadius: "5px"
       }}>
       <h2>
         Closer makes us closer to each other
