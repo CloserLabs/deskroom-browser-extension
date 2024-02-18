@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",
+    "@plasmohq/storage": "^1.9.3",
+    "@supabase/supabase-js": "^2.39.6",
     "plasmo": "0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -31,6 +33,8 @@
     "host_permissions": [
       "https://*/*"
     ],
-    "permissions": ["scripting"]
+    "permissions": [
+      "scripting"
+    ]
   }
 }

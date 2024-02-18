@@ -1,7 +1,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*"],
+  matches: ["https://www.plasmo.com/*", "https://desk.channel.io/"],
   world: "MAIN",
   run_at: "document_start"
 }
