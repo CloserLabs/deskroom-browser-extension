@@ -1,4 +1,5 @@
 import type { User } from "@supabase/supabase-js"
+import resetCssText from "data-text:~reset.css"
 import tailwindcssText from "data-text:~style.css"
 import { useEffect, useState } from "react"
 
@@ -10,6 +11,7 @@ import { supabase } from "~core/supabase"
 
 export const getStyle = () => {
   const style = document.createElement("style")
+  style.textContent += resetCssText
   style.textContent += tailwindcssText
   return style
 }

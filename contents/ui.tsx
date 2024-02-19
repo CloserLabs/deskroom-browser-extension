@@ -8,7 +8,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { supabase } from "~core/supabase"
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*", "https://desk.channel.io/*"]
+  matches: ["https://www.plasmo.com/*", "https://desk.channel.io/*", "https://sell.smartstore.naver.com/*"]
 }
 
 export const getStyle = () => {
