@@ -11,7 +11,8 @@ export const config: PlasmoCSConfig = {
   matches: [
     "https://www.plasmo.com/*",
     "https://desk.channel.io/*",
-    "https://sell.smartstore.naver.com/*"
+    "https://sell.smartstore.naver.com/*",
+    "https://center-pf.kakao.com/*"
   ]
 }
 
