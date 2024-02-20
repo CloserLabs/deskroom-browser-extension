@@ -8,7 +8,11 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { supabase } from "~core/supabase"
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.plasmo.com/*", "https://desk.channel.io/*", "https://sell.smartstore.naver.com/*"]
+  matches: [
+    "https://www.plasmo.com/*",
+    "https://desk.channel.io/*",
+    "https://sell.smartstore.naver.com/*"
+  ]
 }
 
 export const getStyle = () => {
@@ -42,7 +46,7 @@ export default function Sidebar() {
       question_id: data?.[0].id,
       org_name: "glucofit"
     }
-    const res = await fetch("http://api.closer.so/v1/answers/", {
+    const res = await fetch("https://api.closer.so/v1/answers/", {
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json"
