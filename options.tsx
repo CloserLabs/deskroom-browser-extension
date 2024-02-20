@@ -1,5 +1,4 @@
 import type { User } from "@supabase/supabase-js"
-import resetCssText from "data-text:~reset.css"
 import tailwindcssText from "data-text:~style.css"
 import { useEffect, useState } from "react"
 
@@ -9,11 +8,18 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import { supabase } from "~core/supabase"
 
+// TODO: find why this is not working
 export const getStyle = () => {
   const style = document.createElement("style")
-  style.textContent += resetCssText
   style.textContent += tailwindcssText
   return style
+}
+
+const buttonStyle = {
+  backgroundColor: "whitesmoke",
+  border: "unset",
+  padding: "8px 16px",
+  margin: "8px 0"
 }
 
 function IndexOptions() {
@@ -82,14 +88,37 @@ function IndexOptions() {
   }
 
   return (
-    <main className="flex justify-center items-center w-full top-240 relative">
-      <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96">
+    <main
+      className="flex justify-center items-center w-full top-240 relative"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        top: 240,
+        position: "relative",
+        flexDirection: "column",
+        fontSize: 16,
+        fontFamily:
+          "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
+      }}>
+      <h1 className="closer-options-title">Closer</h1>
+      <div
+        className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: 240,
+          justifyContent: "space-between",
+          gap: 4.2
+        }}>
         {user && (
           <>
             <h3>
               {user.email} - {user.id}
             </h3>
             <button
+              style={buttonStyle}
               onClick={() => {
                 supabase.auth.signOut()
                 setUser(null)
@@ -116,12 +145,14 @@ function IndexOptions() {
             />
 
             <button
+              style={buttonStyle}
               onClick={(e) => {
                 handleEmailLogin("SIGNUP", username, password)
               }}>
               Sign up
             </button>
             <button
+              style={buttonStyle}
               onClick={(e) => {
                 handleEmailLogin("LOGIN", username, password)
               }}>
