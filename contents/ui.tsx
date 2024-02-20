@@ -21,13 +21,35 @@ export const getStyle = () => {
   return style
 }
 
+interface CollapsibleTextProps extends React.HTMLAttributes<HTMLDivElement> {
+  text: string
+}
+
+const CollapsibleText: React.FC<CollapsibleTextProps> = ({
+  text,
+  ...props
+}) => {
+  const [isCollapsed, setIsCollapsed] = useState(true)
+  return (
+    <div
+      className="collapsible-text"
+      {...props}
+      onClick={() => setIsCollapsed(!isCollapsed)}>
+      {isCollapsed ? text.slice(0, 50) + "..." : text}
+    </div>
+  )
+}
+
 export default function Sidebar() {
   const [user] = useStorage<User>("user")
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState("")
+  const [answers, setAnswers] = useState<string[]>([])
   useEffect(() => {
     setInterval(() => {
-      setMessage(window.window.getSelection().toString().trim())
+      if (!message) {
+        setMessage(window.window.getSelection().toString().trim())
+      }
       const showShow = document.querySelector(".ext-sidebar-show")
       setIsOpen(!!showShow)
     }, 500)
@@ -58,7 +80,7 @@ export default function Sidebar() {
         alert("응답 생성에 실패했습니다. Error: " + err)
         console.error(error)
       })
-    console.log({ res })
+    setAnswers(res)
   }
 
   return (
@@ -101,6 +123,17 @@ export default function Sidebar() {
               <button className="bg-blue-500 px-4 rounded-lg w-32 h-8">
                 Search
               </button>
+            </div>
+            <div className="sidebar-answer-view">
+              {answers.map((answer, answerIndex) => (
+                <div className="answer-card" key={answerIndex}>
+                  <CollapsibleText
+                    className="answer-card-title cursor-pointer"
+                    style={{ fontSize: 12 }}
+                    text={answer}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
