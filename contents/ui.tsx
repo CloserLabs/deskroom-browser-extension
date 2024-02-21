@@ -2,6 +2,7 @@ import type { User } from "@supabase/supabase-js"
 import tailwindcssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
 import { useEffect, useState } from "react"
+import browser from "webextension-polyfill"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
@@ -12,7 +13,8 @@ export const config: PlasmoCSConfig = {
     "https://www.plasmo.com/*",
     "https://desk.channel.io/*",
     "https://sell.smartstore.naver.com/*"
-  ]
+  ],
+  run_at: "document_start"
 }
 
 export const getStyle = () => {
@@ -45,10 +47,11 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState("")
   const [answers, setAnswers] = useState<string[]>([])
+
   useEffect(() => {
     setInterval(() => {
       if (!message) {
-        setMessage(window.window.getSelection().toString().trim())
+        setMessage(window.getSelection().toString().trim())
       }
       const showShow = document.querySelector(".ext-sidebar-show")
       setIsOpen(!!showShow)
@@ -99,10 +102,12 @@ export default function Sidebar() {
           {!user && (
             <div className="sidebar-redirect-to-options-page my-4">
               <div className="info-callout bg-blue-200 border border-blue-500 text-blue-700 px-4 py-3 rounded relative">
-                <p>
+                <a
+                  href={browser.runtime.getURL("options.html")}
+                  target="_blank">
                   Login in options page to use this extension. Click here to go
                   to options page.
-                </p>
+                </a>
               </div>
             </div>
           )}
