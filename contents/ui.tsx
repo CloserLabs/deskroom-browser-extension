@@ -47,6 +47,7 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState("")
   const [answers, setAnswers] = useState<string[]>([])
+  const [myAnswer, setMyAnswer] = useState<string>("")
 
   useEffect(() => {
     setInterval(() => {
@@ -86,6 +87,10 @@ export default function Sidebar() {
     setAnswers(res)
   }
 
+  const handleMyAnswerSubmit = async () => {
+    // TODO: Implement this
+  }
+
   return (
     <>
       {message && isOpen && (
@@ -117,7 +122,7 @@ export default function Sidebar() {
                 메시지
               </label>
               <textarea
-                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+                className="w-full border border-gray-300 rounded-lg p-2 my-2"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}
@@ -140,6 +145,23 @@ export default function Sidebar() {
                 </div>
               ))}
             </div>
+            <form className="flex flex-col my-2">
+              <label htmlFor="new-answer" className="text-sm py-2">
+                새로운 답변
+              </label>
+              <textarea
+                id="new-answer"
+                className="border border-gray-300 rounded-lg p-2 mb-4"
+                name="new-answer"
+                value={myAnswer}
+                onChange={(e) => setMyAnswer(e.target.value)}
+              />
+              <input
+                type="submit"
+                value="Submit"
+                onClick={handleMyAnswerSubmit}
+              />
+            </form>
           </div>
         </div>
       )}
