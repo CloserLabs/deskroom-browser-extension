@@ -59,6 +59,10 @@ export default function Sidebar() {
   }, [rects])
 
   const handleSearch = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.")
+      return
+    }
     const { data, error } = await supabase
       .from("questions")
       .insert([{ user_id: user.id, user_question: message }])
