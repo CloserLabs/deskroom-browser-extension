@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react"
 
-const FloatingButton = () => {
+import { useTextSelection } from "~hooks/useTextSelection"
+
+const FloatingButton: React.FC<
+  {
+    tailDirection: "left" | "right"
+  } & React.HTMLAttributes<HTMLButtonElement>
+> = ({ tailDirection, ...props }) => {
   return (
     <button
       className="floating-button"
@@ -18,7 +24,8 @@ const FloatingButton = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
-      }}>
+      }}
+      {...props}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -29,35 +36,60 @@ const FloatingButton = () => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="8" x2="12" y2="16" />
-        <line x1="8" y1="12" x2="16" y2="12" />
+        {tailDirection === "left" ? (
+          <>
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+            <line x1="16" y1="12" x2="12" y2="16" />
+          </>
+        ) : (
+          <>
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+            <line x1="8" y1="12" x2="12" y2="16" />
+          </>
+        )}
       </svg>
     </button>
   )
 }
+type TooltipProps = {
+  clickHandler: () => void
+} & React.HTMLAttributes<HTMLDivElement>
 
-const Tooltip = () => {
+const Tooltip: React.FC<TooltipProps> = ({ clickHandler }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 })
+  const [floatingButtonDirection, setFloatingButtonDirection] = useState<
+    "left" | "right"
+  >("right")
+
+  const { text, rects } = useTextSelection()
 
   useEffect(() => {
-    const handleSelection = () => {
-      const selection = window.getSelection()
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0)
-        const rect = range.getBoundingClientRect()
-        setTooltipPosition({ top: rect.top, left: rect.right })
+    if (text && rects.length > 0) {
+      const firstRect = rects[0]
+      const lastRect = rects[rects.length - 1]
+
+      const top = firstRect.top
+      const left = firstRect.left
+
+      const right = lastRect.right
+      const bottom = lastRect.bottom
+
+      const tooltipTop = top + window.scrollY - 50
+      const tooltipLeft = left + window.scrollX - 50
+
+      setTooltipPosition({ top: tooltipTop, left: tooltipLeft })
+
+      if (right > window.innerWidth / 2) {
+        setFloatingButtonDirection("left")
       } else {
-        setTooltipPosition({ top: 0, left: 0 })
+        setFloatingButtonDirection("right")
       }
+    } else {
+      setTooltipPosition({ top: 0, left: 0 })
     }
-
-    document.addEventListener("selectionchange", handleSelection)
-
-    return () => {
-      document.removeEventListener("selectionchange", handleSelection)
-    }
-  }, [])
+  }, [text, rects])
 
   return (
     <div
@@ -67,7 +99,10 @@ const Tooltip = () => {
         top: tooltipPosition.top,
         left: tooltipPosition.left
       }}>
-      <FloatingButton />
+      <FloatingButton
+        tailDirection={floatingButtonDirection}
+        onClick={clickHandler}
+      />
     </div>
   )
 }

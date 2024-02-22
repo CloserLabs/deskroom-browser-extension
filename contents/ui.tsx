@@ -8,6 +8,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import Tooltip from "~components/Tooltip"
 import { supabase } from "~core/supabase"
+import { useTextSelection } from "~hooks/useTextSelection"
 
 export const config: PlasmoCSConfig = {
   matches: [
@@ -49,15 +50,13 @@ export default function Sidebar() {
   const [message, setMessage] = useState("")
   const [answers, setAnswers] = useState<string[]>([])
 
+  const { text, rects } = useTextSelection()
+
   useEffect(() => {
-    setInterval(() => {
-      if (!message) {
-        setMessage(window.getSelection().toString().trim())
-      }
-      const showShow = document.querySelector(".ext-sidebar-show")
-      setIsOpen(!!showShow)
-    }, 500)
-  }, [])
+    if (text && rects.length > 0) {
+      setMessage(text)
+    }
+  }, [rects])
 
   const handleSearch = async () => {
     const { data, error } = await supabase
@@ -144,7 +143,7 @@ export default function Sidebar() {
           </div>
         </div>
       )}
-      <Tooltip />
+      <Tooltip clickHandler={() => setIsOpen(true)} />
     </>
   )
 }
