@@ -1,6 +1,9 @@
+import type { User } from "@supabase/supabase-js"
 import tailwindcssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
 import { useState } from "react"
+
+import { useStorage } from "@plasmohq/storage/hook"
 
 import Sidebar from "~components/Sidebar"
 import Tooltip from "~components/Tooltip"
@@ -22,10 +25,11 @@ export const getStyle = () => {
 
 export default function Content() {
   const [isOpen, setIsOpen] = useState(false)
+  const [user] = useStorage<User>("user")
 
   return (
     <>
-      <Sidebar isOpen={isOpen} />
+      <Sidebar isOpen={isOpen} auth={user} />
       <Tooltip clickHandler={() => setIsOpen(true)} />
     </>
   )

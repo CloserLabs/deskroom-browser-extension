@@ -11,12 +11,12 @@ import CollapsibleText from "./CollapsibleText"
 
 type SidebarProps = {
   isOpen: boolean
+  auth: User
 }
 
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
-> = ({ isOpen }) => {
-  const [user] = useStorage<User>("user")
+> = ({ isOpen, auth }) => {
   const [message, setMessage] = useState("")
   const [answers, setAnswers] = useState<string[]>([])
   const [myAnswer, setMyAnswer] = useState<string>("")
@@ -30,13 +30,13 @@ const Sidebar: React.FC<
   }, [rects])
 
   const handleSearch = async () => {
-    if (!user) {
+    if (!auth) {
       alert("로그인이 필요합니다.")
       return
     }
     const { data, error } = await supabase
       .from("questions")
-      .insert([{ user_id: user.id, user_question: message }])
+      .insert([{ user_id: auth.id, user_question: message }])
       .select()
     if (error) {
       console.log(error)
@@ -71,10 +71,10 @@ const Sidebar: React.FC<
             <div className="sidebar-title text-3xl font-bold">Closer</div>
             <div className="sidebar-user-info-status ml-auto animate-pulse">
               <div
-                className={`w-3 h-3 rounded-full ${user ? "bg-green-500" : "bg-red-500"}`}></div>
+                className={`w-3 h-3 rounded-full ${auth ? "bg-green-500" : "bg-red-500"}`}></div>
             </div>
           </div>
-          {!user && (
+          {!auth && (
             <div className="sidebar-redirect-to-options-page my-4">
               <div className="info-callout bg-blue-200 border border-blue-500 text-blue-700 px-4 py-3 rounded relative">
                 <a
