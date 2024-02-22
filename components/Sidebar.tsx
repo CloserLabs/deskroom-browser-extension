@@ -1,64 +1,38 @@
 import type { User } from "@supabase/supabase-js"
-import tailwindcssText from "data-text:~style.css"
-import type { PlasmoCSConfig } from "plasmo"
 import { useEffect, useState } from "react"
 import browser from "webextension-polyfill"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { supabase } from "~core/supabase"
+import { useTextSelection } from "~hooks/useTextSelection"
 
-export const config: PlasmoCSConfig = {
-  matches: [
-    "https://www.plasmo.com/*",
-    "https://desk.channel.io/*",
-    "https://sell.smartstore.naver.com/*"
-  ],
-  run_at: "document_start"
+import CollapsibleText from "./CollapsibleText"
+
+type SidebarProps = {
+  isOpen: boolean
 }
 
-export const getStyle = () => {
-  const style = document.createElement("style")
-  style.textContent += tailwindcssText
-  return style
-}
-
-interface CollapsibleTextProps extends React.HTMLAttributes<HTMLDivElement> {
-  text: string
-}
-
-const CollapsibleText: React.FC<CollapsibleTextProps> = ({
-  text,
-  ...props
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState(true)
-  return (
-    <div
-      className="collapsible-text"
-      {...props}
-      onClick={() => setIsCollapsed(!isCollapsed)}>
-      {isCollapsed ? text.slice(0, 50) + "..." : text}
-    </div>
-  )
-}
-
-export default function Sidebar() {
+const Sidebar: React.FC<
+  SidebarProps & React.HTMLAttributes<HTMLDivElement>
+> = ({ isOpen }) => {
   const [user] = useStorage<User>("user")
-  const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState("")
   const [answers, setAnswers] = useState<string[]>([])
 
+  const { text, rects } = useTextSelection()
+
   useEffect(() => {
-    setInterval(() => {
-      if (!message) {
-        setMessage(window.getSelection().toString().trim())
-      }
-      const showShow = document.querySelector(".ext-sidebar-show")
-      setIsOpen(!!showShow)
-    }, 500)
-  }, [])
+    if (text && rects.length > 0) {
+      setMessage(text)
+    }
+  }, [rects])
 
   const handleSearch = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.")
+      return
+    }
     const { data, error } = await supabase
       .from("questions")
       .insert([{ user_id: user.id, user_question: message }])
@@ -146,3 +120,5 @@ export default function Sidebar() {
     </>
   )
 }
+
+export default Sidebar
