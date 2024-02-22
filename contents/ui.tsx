@@ -6,6 +6,7 @@ import browser from "webextension-polyfill"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
+import Tooltip from "~components/Tooltip"
 import { supabase } from "~core/supabase"
 
 export const config: PlasmoCSConfig = {
@@ -143,6 +144,7 @@ export default function Sidebar() {
           </div>
         </div>
       )}
+      <Tooltip />
     </>
   )
 }
