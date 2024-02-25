@@ -1,3 +1,18 @@
+import {
+  Cross2Icon,
+  DoubleArrowRightIcon,
+  MagnifyingGlassIcon,
+  PaperPlaneIcon
+} from "@radix-ui/react-icons"
+import {
+  Blockquote,
+  Box,
+  Card,
+  Flex,
+  IconButton,
+  Separator,
+  TextField
+} from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
 import { useEffect, useState } from "react"
 import browser from "webextension-polyfill"
@@ -18,8 +33,10 @@ const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
 > = ({ isOpen, auth }) => {
   const [message, setMessage] = useState("")
-  const [answers, setAnswers] = useState<string[]>([])
+  const [organizationName, setOrganizationName] = useState<string>("glucofit")
+  const [answers, setAnswers] = useState<string[] | null>([])
   const [myAnswer, setMyAnswer] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { text, rects } = useTextSelection()
 
@@ -29,36 +46,38 @@ const Sidebar: React.FC<
     }
   }, [rects])
 
+  // useEffect(() => {
+  //   handleSearch()
+  // }, [isOpen])
+
   const handleSearch = async () => {
     if (!auth) {
       alert("로그인이 필요합니다.")
       return
     }
-    const { data, error } = await supabase
-      .from("questions")
-      .insert([{ user_id: auth.id, user_question: message }])
-      .select()
-    if (error) {
-      console.log(error)
-    }
-    const requestBody = {
-      question: message,
-      question_id: data?.[0].id,
-      org_name: "glucofit"
-    }
-    const res = await fetch("https://api.closer.so/v1/answers/", {
-      body: JSON.stringify(requestBody),
+    setLoading(true)
+    setAnswers(null) // reset
+    const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
+      body: JSON.stringify({
+        organization_name: organizationName,
+        question: message
+      }),
       headers: {
         "Content-Type": "application/json"
       },
       method: "POST"
     })
-      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false)
+        return res.json()
+      })
       .catch((err) => {
         alert("응답 생성에 실패했습니다. Error: " + err)
-        console.error(error)
+        setLoading(false)
+        setAnswers(null)
+        console.error(err)
       })
-    setAnswers(res)
+    setAnswers(res?.["retrieved_messages"] ?? null)
   }
 
   return (
@@ -67,6 +86,13 @@ const Sidebar: React.FC<
         <div
           id="sidebar"
           className="fixed w-2/6 bg-white px-4 h-screen transition-all right-0 flex flex-col content-between py-8 border-1 border container">
+          <Box mb={`2`}>
+            <IconButton
+              onClick={() => setMessage(null)}
+              className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-75">
+              <DoubleArrowRightIcon width={`20`} height={`20`} />
+            </IconButton>
+          </Box>
           <div className="sidebar-title-area flex items-center">
             <div className="sidebar-title text-3xl font-bold">Closer</div>
             <div className="sidebar-user-info-status ml-auto animate-pulse">
@@ -87,50 +113,71 @@ const Sidebar: React.FC<
             </div>
           )}
           <div className="sidebar-content-area py-4">
-            <label htmlFor="" className="text-sm my-2">
-              메시지
-            </label>
-            <textarea
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={4}
-              wrap="soft"
-            />
-            <div className="sidebar-search-submit-btn" onClick={handleSearch}>
-              <button className="bg-blue-500 px-4 rounded-lg w-32 h-8">
-                Search
-              </button>
-            </div>
+            <Flex width={`100%`} direction={`column`}>
+              <Box>
+                <label htmlFor="" className="text-sm my-2 font-bold">
+                  메시지
+                </label>
+              </Box>
+              <Flex>
+                <TextField.Root size={`3`} style={{ flex: 1 }}>
+                  <TextField.Input
+                    className="w-full border border-gray-300 rounded-lg p-2 mb-4 flex-1 bg-gray-100"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </TextField.Root>
+                <IconButton
+                  onClick={handleSearch}
+                  ml={`auto`}
+                  className="hover:bg-gray-200 transtion-all duration-75 rounded p-2">
+                  <MagnifyingGlassIcon width="18" height="18" />
+                </IconButton>
+              </Flex>
+            </Flex>
+            <Separator />
             <div className="sidebar-answer-view">
               <div className="sidebar-answer-title">
-                <div className="text-sm">추천 답변</div>
+                <div className="text-sm font-bold">추천 답변</div>
               </div>
-              <div className="sidebar-answer-content">
-                {answers.map((answer, answerIndex) => (
-                  <div className="answer-card" key={answerIndex}>
-                    <CollapsibleText
-                      className="answer-card-title cursor-pointer"
-                      style={{ fontSize: 12 }}
-                      text={answer}
-                    />
-                  </div>
-                ))}
-              </div>
+              <Flex className="py-4" direction={`column`} gap={`2`}>
+                {loading ? (
+                  <div className="animate-pulse w-full h-36 bg-gray-200 rounded-md"></div>
+                ) : null}
+                {!!answers ? (
+                  answers.map((answer, answerIndex) => (
+                    <Card
+                      className="w-full p-4 rounded-lg bg-gray-100 hover:bg-gray-300 transition-all ease-in-out duration-75 cursor-pointer"
+                      onClick={() => {
+                        window.navigator.clipboard.writeText(answer)
+                        alert("복사되었습니다.")
+                      }}
+                      key={answerIndex}>
+                      <Blockquote className="text-sm text-gray-500">
+                        {answer}
+                      </Blockquote>
+                    </Card>
+                  ))
+                ) : (
+                  <div className="text-sm text-gray-500">답변이 없습니다.</div>
+                )}
+              </Flex>
             </div>
             <div className="sidebar-my-answer">
-              <div className="sidebar-my-answer-label text-sm">내 답변</div>
+              <div className="sidebar-my-answer-label text-sm font-bold">
+                내 답변
+              </div>
               <div className="my-answer-input flex">
-                <textarea
-                  className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-                  value={myAnswer}
-                  onChange={(e) => setMyAnswer(e.target.value)}
-                  rows={4}
-                  wrap="soft"
-                />
-                <button className="bg-blue-500 px-4 rounded-lg w-32 h-8 mx-2">
-                  Submit
-                </button>
+                <TextField.Root size={`3`} style={{ flex: 1 }}>
+                  <TextField.Input
+                    className="w-full border border-gray-300 rounded-lg p-2 mb-4 bg-gray-200"
+                    value={myAnswer}
+                    onChange={(e) => setMyAnswer(e.target.value)}
+                  />
+                </TextField.Root>
+                <IconButton className="bg-blue-500 px-4 rounded-lg w-32 h-8 mx-2">
+                  <PaperPlaneIcon width="18" height="18" />
+                </IconButton>
               </div>
             </div>
           </div>

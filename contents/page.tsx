@@ -1,4 +1,6 @@
+import { Theme } from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
+import radixUIText from "data-text:@radix-ui/themes/styles.css"
 import tailwindcssText from "data-text:~style.css"
 import type { PlasmoCSConfig } from "plasmo"
 import { useState } from "react"
@@ -20,6 +22,7 @@ export const config: PlasmoCSConfig = {
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent += tailwindcssText
+  style.textContent += radixUIText
   return style
 }
 
@@ -28,9 +31,9 @@ export default function Content() {
   const [user] = useStorage<User>("user")
 
   return (
-    <>
+    <Theme>
       <Sidebar isOpen={isOpen} auth={user} />
       <Tooltip clickHandler={() => setIsOpen(true)} />
-    </>
+    </Theme>
   )
 }
