@@ -29,7 +29,7 @@ const Sidebar: React.FC<
 > = ({ isOpen, auth }) => {
   const [message, setMessage] = useState("")
   const [organizationName, setOrganizationName] = useState<string>("glucofit")
-  const [answers, setAnswers] = useState<string[] | null>([])
+  const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
   const [myAnswer, setMyAnswer] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -41,6 +41,7 @@ const Sidebar: React.FC<
     }
   }, [rects])
 
+  // TODO: make it work
   // useEffect(() => {
   //   handleSearch()
   // }, [isOpen])
@@ -51,7 +52,7 @@ const Sidebar: React.FC<
       return
     }
     setLoading(true)
-    setAnswers(null) // reset
+    setAnswers(undefined) // reset
     const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
       body: JSON.stringify({
         organization_name: organizationName,
@@ -124,10 +125,10 @@ const Sidebar: React.FC<
                   메시지
                 </label>
               </Box>
-              <Flex align={`center`}>
+              <Flex align={`center`} justify={`center`} className="my-2">
                 <TextField.Root size={`3`} style={{ flex: 1 }}>
                   <TextField.Input
-                    className="w-full rounded-lg flex-1 bg-gray-100 text-sm"
+                    className="w-full rounded-lg flex-1 bg-gray-100 text-sm p-2"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
@@ -135,7 +136,7 @@ const Sidebar: React.FC<
                 <IconButton
                   onClick={handleSearch}
                   ml={`auto`}
-                  className="hover:bg-gray-200 transtion-all duration-75 rounded">
+                  className="hover:bg-gray-200 transtion-all duration-75 rounded mx-2">
                   <MagnifyingGlassIcon width="18" height="18" />
                 </IconButton>
               </Flex>
@@ -145,8 +146,8 @@ const Sidebar: React.FC<
               <div className="sidebar-answer-title">
                 <div className="text-sm font-bold">추천 답변</div>
               </div>
-              <Flex direction={`column`} gap={`2`}>
-                {loading ? (
+              <Flex direction={`column`} gap={`2`} className="my-2">
+                {loading && answers === undefined ? (
                   <div className="animate-pulse w-full h-36 bg-gray-100 rounded-md"></div>
                 ) : (
                   <div className="w-full h-36 bg-gray-100 rounded-md">
@@ -155,12 +156,12 @@ const Sidebar: React.FC<
                     </div>
                   </div>
                 )}
-                {!!answers ? (
+                {answers ? (
                   answers.map((answer, answerIndex) => (
                     <Card
                       className="w-full p-4 rounded-lg bg-gray-100 hover:bg-gray-300 transition-all ease-in-out duration-75 cursor-pointer"
                       onClick={() => {
-                        window.navigator.clipboard.writeText(answer)
+                        window.navigator.clipboard.writeText(answer) // TODO: make it work
                         alert("복사되었습니다.")
                       }}
                       key={answerIndex}>
@@ -170,7 +171,11 @@ const Sidebar: React.FC<
                     </Card>
                   ))
                 ) : (
-                  <div className="text-sm text-gray-500">답변이 없습니다.</div>
+                  <div
+                    className="text-sm text-gray-500"
+                    hidden={answers == null}>
+                    답변이 없습니다.
+                  </div>
                 )}
               </Flex>
             </div>
