@@ -1,6 +1,6 @@
 {
-  "name": "closer-browser-extension",
-  "displayName": "Closer browser extension",
+  "name": "deskroom-browser-extension",
+  "displayName": "deskroom browser extension",
   "version": "0.0.1",
   "description": "A browser extension that makes us closer",
   "author": "Humphrey <ahnsv@bc.edu>",

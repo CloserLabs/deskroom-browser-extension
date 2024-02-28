@@ -102,7 +102,7 @@ function IndexOptions() {
         fontFamily:
           "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
       }}>
-      <h1 className="closer-options-title">Closer</h1>
+      <h1 className="deskroom-options-title">Deskroom</h1>
       <div
         className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96"
         style={{
