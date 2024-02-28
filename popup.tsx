@@ -9,9 +9,7 @@ function IndexPopup() {
         padding: 16,
         borderRadius: "5px"
       }}>
-      <h2>
-        Closer makes us closer to each other
-      </h2>
+      <h2>Deskroom makes us closer to each other</h2>
       <div>
         <p>https://closer.so</p>
       </div>

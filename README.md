@@ -1,4 +1,4 @@
-# Closer Browser Extension
+# Deskroom Browser Extension
 
 This is a browser extension that makes us closer.
 

@@ -94,7 +94,7 @@ const Sidebar: React.FC<
             </IconButton>
           </Box>
           <div className="sidebar-title-area flex items-center">
-            <div className="sidebar-title text-3xl font-bold">Closer</div>
+            <div className="sidebar-title text-3xl font-bold">Deskroom</div>
             <div className="sidebar-user-info-status ml-auto animate-pulse">
               <div
                 className={`w-3 h-3 rounded-full ${auth ? "bg-green-500" : "bg-red-500"}`}></div>
