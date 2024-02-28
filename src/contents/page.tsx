@@ -25,8 +25,8 @@ export const config: PlasmoCSConfig = {
 
 export const getStyle = () => {
   const style = document.createElement("style")
-  style.textContent += tailwindcssText
   style.textContent += radixUIText
+  style.textContent += tailwindcssText
   return style
 }
 
