@@ -19,8 +19,8 @@ import browser from "webextension-polyfill"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
-import { supabase } from "~core/supabase"
 import { useTextSelection } from "~hooks/useTextSelection"
+import { supabase } from "~src/core/supabase"
 
 import CollapsibleText from "./CollapsibleText"
 
