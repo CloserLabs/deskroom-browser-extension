@@ -14,9 +14,13 @@ export const config: PlasmoCSConfig = {
   matches: [
     "https://www.plasmo.com/*",
     "https://desk.channel.io/*",
-    "https://sell.smartstore.naver.com/*"
+    "https://sell.smartstore.naver.com/*",
+    "https://sell.smartstore.naver.com/#/home/about",
+    "https://sell.smartstore.naver.com/#/talktalk/chat",
+    "https://talk.sell.smartstore.naver.com/*"
   ],
-  run_at: "document_start"
+  run_at: "document_start",
+  all_frames: true
 }
 
 export const getStyle = () => {
