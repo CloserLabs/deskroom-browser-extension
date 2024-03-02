@@ -14,6 +14,7 @@ import {
   TextField
 } from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
+import deskroomLogo from "data-base64:assets/logo.png"
 import { useEffect, useState } from "react"
 import browser from "webextension-polyfill"
 
@@ -83,12 +84,7 @@ const Sidebar: React.FC<
           id="sidebar"
           className="fixed w-2/6 bg-white px-4 h-screen transition-all right-0 flex flex-col content-between py-4 border-1 border container shadow-md">
           <Flex className="sidebar-title-area flex items-center py-4">
-            <Heading
-              className="sidebar-title"
-              style={{ marginRight: "auto" }}
-              as={`h1`}>
-              Deskroom
-            </Heading>
+            <img src={deskroomLogo} alt="deskroom logo" className="w-[120px]" />
             <IconButton
               onClick={() => setMessage(null)}
               className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-75 ml-auto">
