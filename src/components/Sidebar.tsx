@@ -18,20 +18,25 @@ import { useEffect, useState } from "react"
 import browser from "webextension-polyfill"
 
 import { useTextSelection } from "~hooks/useTextSelection"
+import type { OrganizationStorage } from "~options"
 
 type SidebarProps = {
   isOpen: boolean
   auth: User
+  orgs: OrganizationStorage | null
 }
 
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
-> = ({ isOpen, auth }) => {
+> = ({ isOpen, auth, orgs }) => {
   const [message, setMessage] = useState("")
-  const [organizationName, setOrganizationName] = useState<string>("glucofit")
   const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
   const [myAnswer, setMyAnswer] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const { availableOrgs, currentOrg } = orgs ?? {
+    availableOrgs: [],
+    currentOrg: null
+  }
 
   const { text, rects } = useTextSelection()
 
@@ -55,7 +60,7 @@ const Sidebar: React.FC<
     setAnswers(undefined) // reset
     const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
       body: JSON.stringify({
-        organization_name: organizationName,
+        organization_name: currentOrg.key,
         question: message
       }),
       headers: {
@@ -84,6 +89,21 @@ const Sidebar: React.FC<
           className="fixed w-2/6 bg-white px-4 h-screen transition-all right-0 flex flex-col content-between py-4 border-1 border container shadow-md">
           <Flex className="sidebar-title-area flex items-center py-4">
             <img src={deskroomLogo} alt="deskroom logo" className="w-[120px]" />
+            {/* organization select */}
+            {availableOrgs.length > 1 && (
+              <Flex className="sidebar-organization-select">
+                <select
+                  name="organization"
+                  id="organization"
+                  className="rounded-lg p-2 bg-gray-100 text-sm">
+                  {availableOrgs.map((org, orgIndex) => (
+                    <option value={org.key} key={orgIndex}>
+                      {org.name_kor}
+                    </option>
+                  ))}
+                </select>
+              </Flex>
+            )}
             <IconButton
               onClick={() => setMessage(null)}
               className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-75 ml-auto">

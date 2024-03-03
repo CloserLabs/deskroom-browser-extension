@@ -9,6 +9,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import Sidebar from "~components/Sidebar"
 import Tooltip from "~components/Tooltip"
+import { type OrganizationStorage } from "~options"
 
 export const config: PlasmoCSConfig = {
   matches: [
@@ -33,10 +34,11 @@ export const getStyle = () => {
 export default function Content() {
   const [isOpen, setIsOpen] = useState(false)
   const [user] = useStorage<User>("user")
+  const [orgs] = useStorage<OrganizationStorage | null>("orgs")
 
   return (
     <Theme>
-      <Sidebar isOpen={isOpen} auth={user} />
+      <Sidebar isOpen={isOpen} auth={user} orgs={orgs} />
       <Tooltip clickHandler={() => setIsOpen(true)} />
     </Theme>
   )

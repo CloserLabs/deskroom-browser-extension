@@ -6,6 +6,13 @@ import { sendToBackground } from "@plasmohq/messaging"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { supabase } from "~core/supabase"
+import type { Database } from "~lib/database.types"
+
+export type Organization = Database["public"]["Tables"]["organizations"]["Row"]
+export type OrganizationStorage = {
+  availableOrgs: Organization[]
+  currentOrg: Organization | undefined
+}
 
 // TODO: find why this is not working
 export const getStyle = () => {
@@ -23,6 +30,8 @@ const buttonStyle = {
 
 function IndexOptions() {
   const [user, setUser] = useStorage<User>("user")
+  const [orgs, setOrgs] = useStorage<OrganizationStorage>("org")
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -34,6 +43,24 @@ function IndexOptions() {
         console.error(error)
         return
       }
+
+      const { data: orgs, error: organizationError } = await supabase
+        .from("organizations")
+        .select("*, users!inner(*)")
+        .eq("users.id", data?.session?.user.id)
+
+      if (organizationError != null) {
+        console.log(organizationError)
+      }
+
+      if (orgs) {
+        setOrgs({
+          availableOrgs: orgs,
+          currentOrg: orgs[0]
+        })
+        console.log({ orgs })
+      }
+
       if (!!data.session) {
         setUser(data.session.user)
         console.log({ user: data.session.user })
