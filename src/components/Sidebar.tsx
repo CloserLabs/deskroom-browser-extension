@@ -8,7 +8,6 @@ import {
   Box,
   Card,
   Flex,
-  Heading,
   IconButton,
   Separator,
   TextField
