@@ -3,7 +3,6 @@ import tailwindcssText from "data-text:~style.css"
 import { useEffect, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
-import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { supabase } from "~core/supabase"
@@ -23,13 +22,7 @@ const buttonStyle = {
 }
 
 function IndexOptions() {
-  const [user, setUser] = useStorage<User>({
-    key: "user",
-    instance: new Storage({
-      area: "session"
-    })
-  })
-
+  const [user, setUser] = useStorage<User>("user")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -43,6 +36,7 @@ function IndexOptions() {
       }
       if (!!data.session) {
         setUser(data.session.user)
+        console.log({ user: data.session.user })
         sendToBackground({
           name: "init-session",
           body: {
