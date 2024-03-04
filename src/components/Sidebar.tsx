@@ -17,26 +17,26 @@ import deskroomLogo from "data-base64:assets/logo.png"
 import { useEffect, useState } from "react"
 import browser from "webextension-polyfill"
 
+import { useStorage } from "@plasmohq/storage/hook"
+
 import { useTextSelection } from "~hooks/useTextSelection"
 import type { OrganizationStorage } from "~options"
 
 type SidebarProps = {
   isOpen: boolean
   auth: User
-  orgs: OrganizationStorage | null
+  // orgs: OrganizationStorage | null
 }
 
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
-> = ({ isOpen, auth, orgs }) => {
+> = ({ isOpen, auth }) => {
   const [message, setMessage] = useState("")
   const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
   const [myAnswer, setMyAnswer] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
-  const { availableOrgs, currentOrg } = orgs ?? {
-    availableOrgs: [],
-    currentOrg: null
-  }
+  // TODO: set org by select
+  const [orgs, setOrgs] = useStorage<OrganizationStorage | null>("orgs")
 
   const { text, rects } = useTextSelection()
 
@@ -60,7 +60,7 @@ const Sidebar: React.FC<
     setAnswers(undefined) // reset
     const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
       body: JSON.stringify({
-        organization_name: currentOrg.key,
+        organization_name: orgs?.currentOrg.key,
         question: message
       }),
       headers: {
@@ -90,14 +90,23 @@ const Sidebar: React.FC<
           <Flex className="sidebar-title-area flex items-center py-4">
             <img src={deskroomLogo} alt="deskroom logo" className="w-[120px]" />
             {/* organization select */}
-            {availableOrgs.length > 1 && (
+            {orgs?.availableOrgs.length >= 1 && (
               <Flex className="sidebar-organization-select">
                 <select
                   name="organization"
                   id="organization"
-                  className="rounded-lg p-2 bg-gray-100 text-sm">
-                  {availableOrgs.map((org, orgIndex) => (
-                    <option value={org.key} key={orgIndex}>
+                  value={orgs?.currentOrg.name_kor}
+                  onChange={(e) => {
+                    setOrgs({
+                      availableOrgs: orgs?.availableOrgs,
+                      currentOrg: orgs?.availableOrgs.find(
+                        (org) => org.name_kor === e.target.value
+                      ) // TODO: find out why
+                    })
+                  }}
+                  className="rounded-lg p-2 bg-gray-100 text-sm mx-2">
+                  {orgs?.availableOrgs.map((org, orgIndex) => (
+                    <option value={org.name_kor} key={orgIndex}>
                       {org.name_kor}
                     </option>
                   ))}

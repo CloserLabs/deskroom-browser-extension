@@ -28,9 +28,23 @@ const buttonStyle = {
   margin: "8px 0"
 }
 
+const getOrgs = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("organizations")
+    .select("*, users!inner(*)")
+    .eq("users.id", userId)
+
+  if (error != null) {
+    console.error(error)
+  }
+  console.log({ data })
+
+  return data
+}
+
 function IndexOptions() {
   const [user, setUser] = useStorage<User>("user")
-  const [orgs, setOrgs] = useStorage<OrganizationStorage>("org")
+  const [orgs, setOrgs] = useStorage<OrganizationStorage>("orgs")
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -44,22 +58,16 @@ function IndexOptions() {
         return
       }
 
-      const { data: orgs, error: organizationError } = await supabase
-        .from("organizations")
-        .select("*, users!inner(*)")
-        .eq("users.id", data?.session?.user.id)
+      const organizations = await getOrgs(data.session.user.id)
 
-      if (organizationError != null) {
-        console.log(organizationError)
+      if (!organizations) {
+        throw new Error("No organizations found for this user")
       }
-
-      if (orgs) {
-        setOrgs({
-          availableOrgs: orgs,
-          currentOrg: orgs[0]
-        })
-        console.log({ orgs })
-      }
+      setOrgs({
+        availableOrgs: organizations,
+        currentOrg: organizations[0]
+      })
+      console.log({ organizations })
 
       if (!!data.session) {
         setUser(data.session.user)
@@ -100,7 +108,15 @@ function IndexOptions() {
         alert("Signup successful, confirmation mail should be sent soon!")
       } else {
         setUser(user)
-        console.log({ user })
+        const orgs = await getOrgs(user.id)
+        if (!orgs) {
+          throw new Error("No organizations found for this user")
+        }
+        setOrgs({
+          availableOrgs: orgs,
+          currentOrg: orgs[0]
+        })
+        console.log({ orgs, user })
       }
     } catch (error) {
       console.log("error", error)
