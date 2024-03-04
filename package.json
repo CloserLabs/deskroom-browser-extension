@@ -36,10 +36,12 @@
     "name": "__MSG_extensionName__",
     "default_locale": "ko",
     "host_permissions": [
-      "https://*/*"
-    ],
-    "permissions": [
-      "scripting"
+      "https://www.plasmo.com/*",
+      "https://desk.channel.io/*",
+      "https://sell.smartstore.naver.com/*",
+      "https://sell.smartstore.naver.com/#/home/about",
+      "https://sell.smartstore.naver.com/#/talktalk/chat",
+      "https://talk.sell.smartstore.naver.com/*"
     ]
   }
 }
