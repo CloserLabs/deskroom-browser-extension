@@ -36,7 +36,6 @@
     "name": "__MSG_extensionName__",
     "default_locale": "ko",
     "host_permissions": [
-      "https://www.plasmo.com/*",
       "https://desk.channel.io/*",
       "https://sell.smartstore.naver.com/*",
       "https://sell.smartstore.naver.com/#/home/about",

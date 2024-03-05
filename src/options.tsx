@@ -6,6 +6,13 @@ import { sendToBackground } from "@plasmohq/messaging"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { supabase } from "~core/supabase"
+import type { Database } from "~lib/database.types"
+
+export type Organization = Database["public"]["Tables"]["organizations"]["Row"]
+export type OrganizationStorage = {
+  availableOrgs: Organization[]
+  currentOrg: Organization | undefined
+}
 
 // TODO: find why this is not working
 export const getStyle = () => {
@@ -21,8 +28,25 @@ const buttonStyle = {
   margin: "8px 0"
 }
 
+const getOrgs = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("organizations")
+    .select("*, users!inner(*)")
+    .eq("users.id", userId)
+
+  if (error != null) {
+    console.error(error)
+  }
+  for (const org of data) {
+    delete org.users
+  }
+  return data
+}
+
 function IndexOptions() {
   const [user, setUser] = useStorage<User>("user")
+  const [orgs, setOrgs] = useStorage<OrganizationStorage>("orgs")
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -34,9 +58,19 @@ function IndexOptions() {
         console.error(error)
         return
       }
+
+      const organizations = await getOrgs(data.session.user.id)
+
+      if (!organizations) {
+        throw new Error("No organizations found for this user")
+      }
+      setOrgs({
+        availableOrgs: organizations,
+        currentOrg: organizations[0]
+      })
+
       if (!!data.session) {
         setUser(data.session.user)
-        console.log({ user: data.session.user })
         sendToBackground({
           name: "init-session",
           body: {
@@ -73,7 +107,15 @@ function IndexOptions() {
         alert("Signup successful, confirmation mail should be sent soon!")
       } else {
         setUser(user)
-        console.log({ user })
+        const orgs = await getOrgs(user.id)
+        if (!orgs) {
+          throw new Error("No organizations found for this user")
+        }
+        setOrgs({
+          availableOrgs: orgs,
+          currentOrg: orgs[0]
+        })
+        console.log({ orgs, user })
       }
     } catch (error) {
       console.log("error", error)
@@ -97,6 +139,9 @@ function IndexOptions() {
           "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
       }}>
       <h1 className="deskroom-options-title">Deskroom</h1>
+      <div className="deskroom-organization">
+        Organization: {orgs?.currentOrg?.name_kor}
+      </div>
       <div
         className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96"
         style={{
@@ -116,6 +161,7 @@ function IndexOptions() {
               onClick={() => {
                 supabase.auth.signOut()
                 setUser(null)
+                setOrgs(null)
               }}>
               Logout
             </button>

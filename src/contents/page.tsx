@@ -9,6 +9,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import Sidebar from "~components/Sidebar"
 import Tooltip from "~components/Tooltip"
+import { type OrganizationStorage } from "~options"
 
 export const config: PlasmoCSConfig = {
   matches: [
