@@ -15,6 +15,7 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/themes": "^2.0.3",
     "@supabase/supabase-js": "^2.39.6",
+    "mixpanel-browser": "^2.49.0",
     "plasmo": "0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
     "@types/chrome": "0.0.258",
+    "@types/mixpanel-browser": "^2.49.0",
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
@@ -43,9 +45,16 @@
     "permissions": [
       "storage"
     ],
-    "web_accessible_resources": [{ 
-      "resources": [ "/index.html", "/options.html" ],
-      "matches": [ "<all_urls>" ]
-    }]
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "/index.html",
+          "/options.html"
+        ],
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ]
   }
 }

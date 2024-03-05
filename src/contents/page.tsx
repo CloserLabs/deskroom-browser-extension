@@ -2,6 +2,7 @@ import { Theme } from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
 import radixUIText from "data-text:@radix-ui/themes/styles.css"
 import tailwindcssText from "data-text:~style.css"
+import mixpanel from "mixpanel-browser"
 import type { PlasmoCSConfig } from "plasmo"
 import { useState } from "react"
 
@@ -9,7 +10,6 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import Sidebar from "~components/Sidebar"
 import Tooltip from "~components/Tooltip"
-import { type OrganizationStorage } from "~options"
 
 export const config: PlasmoCSConfig = {
   matches: [
@@ -35,6 +35,11 @@ export default function Content() {
   const [isOpen, setIsOpen] = useState(false)
   const [user] = useStorage<User>("user")
 
+  mixpanel.init(process.env.PLASMO_PUBLIC_MIXPANEL_TOKEN, {
+    debug: process.env.PLASMO_TAG !== "prod",
+    track_pageview: true,
+    persistence: "localStorage"
+  })
   return (
     <Theme>
       <Sidebar isOpen={isOpen} auth={user} />
