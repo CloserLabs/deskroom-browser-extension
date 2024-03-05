@@ -14,6 +14,7 @@ import {
 } from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
 import deskroomLogo from "data-base64:assets/logo.png"
+import mixpanel from "mixpanel-browser"
 import { useEffect, useState } from "react"
 import browser from "webextension-polyfill"
 
@@ -78,6 +79,11 @@ const Sidebar: React.FC<
         setAnswers(null)
       })
     setAnswers(res?.["retrieved_messages"] ?? null)
+    mixpanel.track("Searched", {
+      platform: "chrome-extension",
+      question: message,
+      answers: res?.["retrieved_messages"]
+    })
   }
 
   return (

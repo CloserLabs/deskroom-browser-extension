@@ -1,5 +1,6 @@
 import type { User } from "@supabase/supabase-js"
 import tailwindcssText from "data-text:~style.css"
+import mixpanel from "mixpanel-browser"
 import { useEffect, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
@@ -49,6 +50,12 @@ function IndexOptions() {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+
+  mixpanel.init(process.env.PLASMO_PUBLIC_MIXPANEL_TOKEN, {
+    debug: true,
+    track_pageview: true,
+    persistence: "localStorage"
+  })
 
   useEffect(() => {
     async function init() {
@@ -117,6 +124,7 @@ function IndexOptions() {
         })
         console.log({ orgs, user })
       }
+      mixpanel.identify(user.id)
     } catch (error) {
       console.log("error", error)
       alert(error.error_description || error)
