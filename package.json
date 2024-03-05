@@ -1,7 +1,7 @@
 {
   "name": "deskroom-browser-extension",
   "displayName": "__MSG_extensionName__",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "__MSG_extensionDescription__",
   "author": "Humphrey <ahnsv@bc.edu>",
   "scripts": {
@@ -38,8 +38,6 @@
     "host_permissions": [
       "https://desk.channel.io/*",
       "https://sell.smartstore.naver.com/*",
-      "https://sell.smartstore.naver.com/#/home/about",
-      "https://sell.smartstore.naver.com/#/talktalk/chat",
       "https://talk.sell.smartstore.naver.com/*"
     ],
     "permissions": [
