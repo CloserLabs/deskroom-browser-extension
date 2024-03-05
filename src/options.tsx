@@ -37,8 +37,9 @@ const getOrgs = async (userId: string) => {
   if (error != null) {
     console.error(error)
   }
-  console.log({ data })
-
+  for (const org of data) {
+    delete org.users
+  }
   return data
 }
 
@@ -67,11 +68,9 @@ function IndexOptions() {
         availableOrgs: organizations,
         currentOrg: organizations[0]
       })
-      console.log({ organizations })
 
       if (!!data.session) {
         setUser(data.session.user)
-        console.log({ user: data.session.user })
         sendToBackground({
           name: "init-session",
           body: {
@@ -140,6 +139,9 @@ function IndexOptions() {
           "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
       }}>
       <h1 className="deskroom-options-title">Deskroom</h1>
+      <div className="deskroom-organization">
+        Organization: {orgs?.currentOrg?.name_kor}
+      </div>
       <div
         className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96"
         style={{
@@ -159,6 +161,7 @@ function IndexOptions() {
               onClick={() => {
                 supabase.auth.signOut()
                 setUser(null)
+                setOrgs(null)
               }}>
               Logout
             </button>

@@ -34,11 +34,10 @@ export const getStyle = () => {
 export default function Content() {
   const [isOpen, setIsOpen] = useState(false)
   const [user] = useStorage<User>("user")
-  const [orgs] = useStorage<OrganizationStorage | null>("orgs")
 
   return (
     <Theme>
-      <Sidebar isOpen={isOpen} auth={user} orgs={orgs} />
+      <Sidebar isOpen={isOpen} auth={user} />
       <Tooltip clickHandler={() => setIsOpen(true)} />
     </Theme>
   )

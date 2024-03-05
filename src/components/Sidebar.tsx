@@ -76,7 +76,6 @@ const Sidebar: React.FC<
         alert("응답 생성에 실패했습니다. Error: " + err)
         setLoading(false)
         setAnswers(null)
-        console.error(err)
       })
     setAnswers(res?.["retrieved_messages"] ?? null)
   }
@@ -89,7 +88,6 @@ const Sidebar: React.FC<
           className="fixed w-2/6 bg-white px-4 h-screen transition-all right-0 flex flex-col content-between py-4 border-1 border container shadow-md">
           <Flex className="sidebar-title-area flex items-center py-4">
             <img src={deskroomLogo} alt="deskroom logo" className="w-[120px]" />
-            {/* organization select */}
             {orgs?.availableOrgs.length >= 1 && (
               <Flex className="sidebar-organization-select">
                 <select
@@ -98,10 +96,12 @@ const Sidebar: React.FC<
                   value={orgs?.currentOrg.name_kor}
                   onChange={(e) => {
                     setOrgs({
-                      availableOrgs: orgs?.availableOrgs,
-                      currentOrg: orgs?.availableOrgs.find(
+                      availableOrgs: orgs.availableOrgs,
+                      currentOrg: orgs.availableOrgs.find(
                         (org) => org.name_kor === e.target.value
-                      ) // TODO: find out why
+                      )
+                    }).catch((err) => {
+                      console.error(err) // NOTE: QUOTA_BYTES_PER_ITEM Error
                     })
                   }}
                   className="rounded-lg p-2 bg-gray-100 text-sm mx-2">
