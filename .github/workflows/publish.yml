@@ -21,9 +21,9 @@ jobs:
           yarn install --frozen-lockfile --immutable
       - name: Env file
         run: |
-          echo "PLASMO_PUBLIC_SUPABASE_URL=${{ secrets.PLASMO_PUBLIC_SUPABASE_URL }}" > .env
-          echo "PLASMO_PUBLIC_SUPABASE_KEY=${{ secrets.PLASMO_PUBLIC_SUPABASE_KEY }}" > .env
-          echo "PLASMO_PUBLIC_MIXPANEL_TOKEN=${{ secrets.PLASMO_PUBLIC_MIXPANEL_TOKEN }}" > .env
+          echo "PLASMO_PUBLIC_SUPABASE_URL=${{ secrets.PLASMO_PUBLIC_SUPABASE_URL }}" >> .env
+          echo "PLASMO_PUBLIC_SUPABASE_KEY=${{ secrets.PLASMO_PUBLIC_SUPABASE_KEY }}" >> .env
+          echo "PLASMO_PUBLIC_MIXPANEL_TOKEN=${{ secrets.PLASMO_PUBLIC_MIXPANEL_TOKEN }}" >> .env
       - name: Build
         run: |
           yarn build --zip
