@@ -40,10 +40,15 @@ export default function Content() {
     track_pageview: true,
     persistence: "localStorage"
   })
+
+  const handleTooltipClick = () => {
+    setIsOpen(true)
+    mixpanel.track("Answer Panel Triggered") // TODO: add question in select
+  }
   return (
     <Theme>
       <Sidebar isOpen={isOpen} auth={user} />
-      <Tooltip clickHandler={() => setIsOpen(true)} />
+      <Tooltip clickHandler={handleTooltipClick} />
     </Theme>
   )
 }

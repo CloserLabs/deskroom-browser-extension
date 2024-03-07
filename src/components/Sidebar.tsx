@@ -32,7 +32,7 @@ type SidebarProps = {
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
 > = ({ isOpen, auth }) => {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("") // TODO: handle message from parent
   const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
   const [myAnswer, setMyAnswer] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
@@ -47,6 +47,10 @@ const Sidebar: React.FC<
     }
   }, [rects])
 
+  useEffect(() => {
+    mixpanel.track(isOpen ? "Answer Panel Activated" : "Answer Panel Deactivated", {question: message})
+  }, [isOpen])
+
   // TODO: make it work
   // useEffect(() => {
   //   handleSearch()
@@ -59,6 +63,7 @@ const Sidebar: React.FC<
     }
     setLoading(true)
     setAnswers(undefined) // reset
+    mixpanel.track("Answer Search Started", {question: message})
     const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
       body: JSON.stringify({
         organization_name: orgs?.currentOrg.key,
@@ -79,11 +84,7 @@ const Sidebar: React.FC<
         setAnswers(null)
       })
     setAnswers(res?.["retrieved_messages"] ?? null)
-    mixpanel.track("Searched", {
-      platform: "chrome-extension",
-      question: message,
-      answers: res?.["retrieved_messages"]
-    })
+    mixpanel.track("Answer Search Ended", {question: message})
   }
 
   return (
@@ -192,6 +193,7 @@ const Sidebar: React.FC<
                       className="w-full p-4 rounded-lg bg-gray-100 hover:bg-gray-300 transition-all ease-in-out duration-75 cursor-pointer"
                       onClick={() => {
                         window.navigator.clipboard.writeText(answer) // TODO: make it work
+                        mixpanel.track("Answer Copied", {question: message, answer: answer})
                         alert("복사되었습니다.")
                       }}
                       key={answerIndex}>
