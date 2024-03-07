@@ -51,6 +51,14 @@ const Sidebar: React.FC<
     mixpanel.track(isOpen ? "Answer Panel Activated" : "Answer Panel Deactivated", {question: message})
   }, [isOpen])
 
+  useEffect(() => {
+    if (orgs) {
+      mixpanel.register({
+        org: orgs.currentOrg.key
+      })
+    }
+  }, [orgs])
+
   // TODO: make it work
   // useEffect(() => {
   //   handleSearch()
