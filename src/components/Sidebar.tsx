@@ -1,12 +1,7 @@
+import { Cross1Icon } from "@radix-ui/react-icons"
 import {
-  DoubleArrowRightIcon,
-  MagnifyingGlassIcon,
-  PaperPlaneIcon
-} from "@radix-ui/react-icons"
-import {
-  Blockquote,
   Box,
-  Card,
+  Button,
   Flex,
   IconButton,
   Separator,
@@ -23,6 +18,9 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { useTextSelection } from "~hooks/useTextSelection"
 import type { OrganizationStorage } from "~options"
 
+import CollapsibleCard from "./CollapsibleCard"
+import Skeleton from "./Sketleton"
+
 type SidebarProps = {
   isOpen: boolean
   auth: User
@@ -34,7 +32,6 @@ const Sidebar: React.FC<
 > = ({ isOpen, auth }) => {
   const [message, setMessage] = useState("") // TODO: handle message from parent
   const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
-  const [myAnswer, setMyAnswer] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   // TODO: set org by select
   const [orgs, setOrgs] = useStorage<OrganizationStorage | null>("orgs")
@@ -48,7 +45,10 @@ const Sidebar: React.FC<
   }, [rects])
 
   useEffect(() => {
-    mixpanel.track(isOpen ? "Answer Panel Activated" : "Answer Panel Deactivated", {question: message})
+    mixpanel.track(
+      isOpen ? "Answer Panel Activated" : "Answer Panel Deactivated",
+      { question: message }
+    )
   }, [isOpen])
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const Sidebar: React.FC<
     }
     setLoading(true)
     setAnswers(undefined) // reset
-    mixpanel.track("Answer Search Started", {question: message})
+    mixpanel.track("Answer Search Started", { question: message })
     const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
       body: JSON.stringify({
         organization_name: orgs?.currentOrg.key,
@@ -92,17 +92,18 @@ const Sidebar: React.FC<
         setAnswers(null)
       })
     setAnswers(res?.["retrieved_messages"] ?? null)
-    mixpanel.track("Answer Search Ended", {question: message})
+    mixpanel.track("Answer Search Ended", { question: message })
   }
 
   return (
     <>
       {message && isOpen && (
-        <div
+        <Flex
           id="sidebar"
-          className="fixed w-2/6 bg-white px-4 h-screen transition-all right-0 flex flex-col content-between py-4 border-1 border container shadow-md">
-          <Flex className="sidebar-title-area flex items-center py-4">
-            <img src={deskroomLogo} alt="deskroom logo" className="w-[120px]" />
+          direction={`column`}
+          className="fixed w-[320px] bg-white h-screen transition-all right-0 content-between border-1 border container shadow-md">
+          <Flex className="sidebar-title-area flex items-center p-2">
+            <img src={deskroomLogo} alt="deskroom logo" className="w-[66px]" />
             {orgs?.availableOrgs.length >= 1 && (
               <Flex className="sidebar-organization-select">
                 <select
@@ -119,7 +120,7 @@ const Sidebar: React.FC<
                       console.error(err) // NOTE: QUOTA_BYTES_PER_ITEM Error
                     })
                   }}
-                  className="rounded-lg p-2 bg-gray-100 text-sm mx-2">
+                  className="mx-2 w-fit rounded-md border border-1 text-[8px] border-gray-900 px-[2px] py-[0.5px] h-[16px]">
                   {orgs?.availableOrgs.map((org, orgIndex) => (
                     <option value={org.name_kor} key={orgIndex}>
                       {org.name_kor}
@@ -130,19 +131,9 @@ const Sidebar: React.FC<
             )}
             <IconButton
               onClick={() => setMessage(null)}
-              className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-75 ml-auto">
-              <DoubleArrowRightIcon width={`20`} height={`20`} />
+              className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-100 ml-auto">
+              <Cross1Icon width={`14`} height={`15`} />
             </IconButton>
-            <Separator
-              size={`4`}
-              orientation={`vertical`}
-              style={{ backgroundColor: "#eee" }}
-              className="mx-4"
-            />
-            <div className="sidebar-user-info-status animate-pulse">
-              <div
-                className={`w-3 h-3 rounded-full ${auth ? "bg-green-500" : "bg-red-500"}`}></div>
-            </div>
           </Flex>
           <Separator size={`4`} style={{ backgroundColor: "#eee" }} />
           {!auth && (
@@ -157,87 +148,118 @@ const Sidebar: React.FC<
               </div>
             </div>
           )}
-          <div className="sidebar-content-area py-4">
+          <div className="sidebar-content-area container px-2">
             <Flex width={`100%`} direction={`column`}>
-              <Box>
-                <label htmlFor="" className="text-sm my-2 font-bold">
-                  메시지
-                </label>
-              </Box>
-              <Flex align={`center`} justify={`center`} className="my-2">
-                <TextField.Root size={`3`} style={{ flex: 1 }}>
+              <Flex
+                className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
+                direction="column">
+                <TextField.Root>
                   <TextField.Input
-                    className="w-full rounded-lg flex-1 bg-gray-100 text-sm p-2"
+                    className="w-full bg-[#2C2C2C] text-[10.5px]"
+                    size={`3`}
+                    style={{ padding: "unset" }}
                     value={message}
+                    variant="soft"
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </TextField.Root>
-                <IconButton
-                  onClick={handleSearch}
-                  ml={`auto`}
-                  className="hover:bg-gray-200 transtion-all duration-75 rounded mx-2">
-                  <MagnifyingGlassIcon width="18" height="18" />
-                </IconButton>
+                <Button
+                  variant="classic"
+                  className={`w-full bg-[#407CF0] text-[11px] transition-all ease-in-out duration-100 
+                    ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer"}
+                  `}
+                  disabled={loading}
+                  onClick={handleSearch}>
+                  답변 찾기
+                </Button>
               </Flex>
             </Flex>
             <Separator />
-            <div className="sidebar-answer-view my-2">
-              <div className="sidebar-answer-title">
-                <div className="text-sm font-bold">추천 답변</div>
-              </div>
-              <Flex direction={`column`} gap={`2`} className="my-2">
-                {loading && answers === undefined ? (
-                  <div className="animate-pulse w-full h-36 bg-gray-100 rounded-md"></div>
-                ) : (
-                  <div className="w-full h-36 bg-gray-100 rounded-md">
-                    <div className="text-sm text-gray-500 p-4">
-                      🔍 버튼을 눌러 답변을 찾아보세요.
-                    </div>
-                  </div>
-                )}
-                {answers ? (
-                  answers.map((answer, answerIndex) => (
-                    <Card
-                      className="w-full p-4 rounded-lg bg-gray-100 hover:bg-gray-300 transition-all ease-in-out duration-75 cursor-pointer"
-                      onClick={() => {
-                        window.navigator.clipboard.writeText(answer) // TODO: make it work
-                        mixpanel.track("Answer Copied", {question: message, answer: answer})
-                        alert("복사되었습니다.")
-                      }}
-                      key={answerIndex}>
-                      <Blockquote className="text-sm text-gray-500">
-                        {answer}
-                      </Blockquote>
-                    </Card>
-                  ))
-                ) : (
-                  <div
-                    className="text-sm text-gray-500"
-                    hidden={answers == null}>
-                    답변이 없습니다.
-                  </div>
+            {loading ? (
+              <Flex
+                className="sidebar-loading-area w-full h-full p-2"
+                direction={`column`}
+                justify={`center`}>
+                <Box className="text-[10px] text-[#7A7A7A] mt-2">
+                  가장 적절한 답변을 찾고 있어요.
+                </Box>
+                <Flex direction={`column`} className="w-full" gap={`2`}>
+                  <Skeleton />
+                  <Skeleton />
+                  <Skeleton />
+                </Flex>
+              </Flex>
+            ) : (
+              <Flex
+                className="sidebar-answer-view my-2 bg-[#F5F6F7] p-2 rounded-md"
+                direction="column">
+                <Flex className="text-[9px] text-[#7A7A7A]">
+                  <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
+                  <Flex
+                    className="ml-auto"
+                    justify="center"
+                    align="center"
+                    gap={`2`}>
+                    전체
+                    <svg
+                      width="7"
+                      height="4"
+                      viewBox="0 0 7 4"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M6 3L3.5 1L1 3"
+                        stroke="#C4C4C4"
+                        stroke-width="0.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </Flex>
+                </Flex>
+                {answers && (
+                  <Flex
+                    direction={`column`}
+                    gap={`2`}
+                    align={`center`}
+                    justify={`center`}
+                    className="sidebar-answers w-full py-2">
+                    {answers.map((answer, answerIdx) => (
+                      <CollapsibleCard
+                        title="환불"
+                        key={answerIdx}
+                        content={answer}
+                      />
+                    ))}
+                  </Flex>
                 )}
               </Flex>
-            </div>
-            <div className="sidebar-my-answer my-2">
-              <div className="sidebar-my-answer-label text-sm font-bold">
-                내 답변
-              </div>
-              <Flex className="my-answer-input my-2" align={`center`}>
-                <TextField.Root size={`3`} style={{ flex: 1 }}>
-                  <TextField.Input
-                    className="w-full rounded-lg p-2 bg-gray-100"
-                    value={myAnswer}
-                    onChange={(e) => setMyAnswer(e.target.value)}
-                  />
-                </TextField.Root>
-                <IconButton className="bg-blue-400 hover:bg-blue-500 rounded-lg mx-2">
-                  <PaperPlaneIcon width="18" height="18" />
-                </IconButton>
-              </Flex>
-            </div>
+            )}
           </div>
-        </div>
+          <Flex
+            className="sidebar-footer-area p-2 mt-auto"
+            justify={`center`}
+            align={`center`}>
+            {!answers ? (
+              <Box>
+                <img
+                  src={deskroomLogo}
+                  alt="deskroom logo"
+                  className="w-[66px]"
+                />
+              </Box>
+            ) : (
+              <Box
+                className="text-[10px] text-[#7A7A7A] cursor-pointer"
+                onClick={() => {
+                  console.log("새 답변")
+                }}>
+                적절한 답변을 찾지 못하셨다면 <u>여기</u>를 눌러 새 답변을
+                작성해주세요.
+              </Box>
+            )}
+          </Flex>
+        </Flex>
       )}
     </>
   )
