@@ -172,6 +172,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                       timerRef.current = window.setTimeout(() => {
                         setToastOpen(true)
                       }, 100)
+                      alert("복사되었습니다.")
                     }}
                   />
                 ))}
