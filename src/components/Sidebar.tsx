@@ -27,11 +27,15 @@ type SidebarProps = {
   setMessage: (message: string) => void
   // orgs: OrganizationStorage | null
 }
+export type Answer = {
+  category: string
+  answer: string
+}
 
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
 > = ({ isOpen, auth, setSidebarOpen, question: message, setMessage }) => {
-  const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
+  const [answers, setAnswers] = useState<Answer[] | null | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(false)
   // TODO: set org by select
   const [orgs, setOrgs] = useStorage<OrganizationStorage | null>("orgs")
