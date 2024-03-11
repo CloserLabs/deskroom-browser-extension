@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   Flex,
   Separator,
+  TextArea,
   TextField
 } from "@radix-ui/themes"
 import React from "react"
@@ -81,16 +82,14 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           <Flex
             className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
             direction="column">
-            <TextField.Root>
-              <TextField.Input
-                className="w-full bg-[#2C2C2C] text-[10.5px]"
-                size={`3`}
-                style={{ padding: "unset" }}
-                value={message}
-                variant="soft"
-                onChange={(e) => setMessage(e.target.value)}
-              />
-            </TextField.Root>
+            <TextArea
+              className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all"
+              size={`1`}
+              style={{ padding: "unset" }}
+              value={message}
+              variant="soft"
+              onChange={(e) => setMessage(e.target.value)}
+            />
             <Button
               variant="classic"
               className={`w-full text-[11px] transition-all ease-in-out duration-100 
