@@ -23,13 +23,14 @@ import Skeleton from "./Sketleton"
 
 type SidebarProps = {
   isOpen: boolean
+  setSidebarOpen: (isOpen: boolean) => void
   auth: User
   // orgs: OrganizationStorage | null
 }
 
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
-> = ({ isOpen, auth }) => {
+> = ({ isOpen, auth, setSidebarOpen }) => {
   const [message, setMessage] = useState("") // TODO: handle message from parent
   const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(false)
@@ -130,7 +131,9 @@ const Sidebar: React.FC<
               </Flex>
             )}
             <IconButton
-              onClick={() => setMessage(null)}
+              onClick={() => {
+                setSidebarOpen(false)
+              }}
               className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-100 ml-auto">
               <Cross1Icon width={`14`} height={`15`} />
             </IconButton>
