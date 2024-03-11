@@ -5,7 +5,7 @@ const Skeleton: React.FC<SkeletonProps> = ({ delay = 0 }) => {
   return (
     <div
       className={`border border-slate-200 shadow rounded-md py-4 px-2 max-w-sm w-full mx-auto
-      ${delay && `delay-${delay}`}
+      ${delay !== 0 && `delay-${delay}`}
     `}>
       <div className="animate-pulse flex space-x-4">
         <div className="flex-1 space-y-6 py-1">

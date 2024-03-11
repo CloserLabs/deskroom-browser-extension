@@ -175,10 +175,10 @@ const Sidebar: React.FC<
               </TextField.Root>
             </Flex>
           </Flex>
-          <Box className="p-2">
+          <Box className="my-4">
             <TextArea
               placeholder="위 문의에 대한 새로운 답변을 적어주세요."
-              className="w-full text-[9.5px] bg-[#F8F9FA] rounded-md border border-[#ECECEC]"
+              className="w-full text-[9.5px] bg-[#F8F9FA] rounded-md border border-[#ECECEC] p-2"
               value={newAnswer}
               onChange={(e) => setNewAnswer(e.target.value)}
               size={`1`}
