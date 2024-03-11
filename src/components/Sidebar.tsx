@@ -1,10 +1,11 @@
-import { Cross1Icon } from "@radix-ui/react-icons"
+import { ArrowLeftIcon, Cross1Icon } from "@radix-ui/react-icons"
 import {
   Box,
   Button,
   Flex,
   IconButton,
   Separator,
+  TextArea,
   TextField
 } from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
@@ -38,6 +39,7 @@ const Sidebar: React.FC<
   const [loading, setLoading] = useState<boolean>(false)
   // TODO: set org by select
   const [orgs, setOrgs] = useStorage<OrganizationStorage | null>("orgs")
+  const [mode, setMode] = useState<"search" | "new">("search")
 
   useEffect(() => {
     mixpanel.track(
@@ -126,23 +128,61 @@ const Sidebar: React.FC<
             </select>
           </Flex>
         )}
-        <IconButton
-          onClick={() => {
-            setSidebarOpen(false)
-          }}
-          className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-100 ml-auto">
-          <Cross1Icon width={`14`} height={`15`} />
-        </IconButton>
+        <Flex className="ml-auto">
+          <IconButton
+            hidden={mode === "search"}
+            onClick={() => {
+              setMode("search")
+            }}
+            className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-100">
+            <ArrowLeftIcon width={`14`} height={`15`} />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setSidebarOpen(false)
+            }}
+            className="hover:bg-gray-200 rounded-sm transition-all ease-in-out duration-100">
+            <Cross1Icon width={`14`} height={`15`} />
+          </IconButton>
+        </Flex>
       </Flex>
       <Separator size={`4`} style={{ backgroundColor: "#eee" }} />
-      <SidebarContent
-        hasLoggedIn={!!auth}
-        message={message}
-        setMessage={setMessage}
-        loading={loading}
-        handleSearch={handleSearch}
-        answers={answers}
-      />
+      {mode === "search" && (
+        <SidebarContent
+          hasLoggedIn={!!auth}
+          message={message}
+          setMessage={setMessage}
+          loading={loading}
+          handleSearch={handleSearch}
+          answers={answers}
+        />
+      )}
+      {mode === "new" && (
+        <Box className="container px-2 py-4">
+          <Flex width={`100%`} direction={`column`}>
+            <Flex
+              className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
+              direction="column">
+              <TextField.Root>
+                <TextField.Input
+                  className="w-full bg-[#2C2C2C] text-[10.5px]"
+                  size={`3`}
+                  style={{ padding: "unset" }}
+                  value={message}
+                  variant="soft"
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </TextField.Root>
+            </Flex>
+          </Flex>
+          <Box className="p-2">
+            <TextArea
+              placeholder="위 문의에 대한 새로운 답변을 적어주세요."
+              className="w-full text-[9.5px] bg-[#F8F9FA] rounded-md border border-[#ECECEC]"
+              rows={15}></TextArea>
+          </Box>
+        </Box>
+      )}
       <Flex
         className="sidebar-footer-area p-2 mt-auto"
         justify={`center`}
@@ -155,7 +195,7 @@ const Sidebar: React.FC<
           <Box
             className="text-[10px] text-[#7A7A7A] cursor-pointer"
             onClick={() => {
-              console.log("새 답변")
+              setMode("new")
             }}>
             적절한 답변을 찾지 못하셨다면 <u>여기</u>를 눌러 새 답변을
             작성해주세요.
