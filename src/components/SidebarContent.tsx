@@ -12,6 +12,7 @@ import React from "react"
 import browser from "webextension-polyfill"
 
 import CollapsibleCard from "./CollapsibleCard"
+import type { Answer } from "./Sidebar"
 import Skeleton from "./Sketleton"
 
 type SidebarContentProps = {
@@ -20,7 +21,7 @@ type SidebarContentProps = {
   setMessage: (message: string) => void
   loading: boolean
   handleSearch: () => void
-  answers: string[]
+  answers: Answer[]
 }
 const SidebarContent: React.FC<SidebarContentProps> = ({
   hasLoggedIn,
@@ -164,9 +165,9 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                 className="sidebar-answers w-full py-2">
                 {answers.map((answer, answerIdx) => (
                   <CollapsibleCard
-                    title="환불"
+                    title={answer?.category || "일반"}
                     key={answerIdx}
-                    content={answer}
+                    content={answer?.answer}
                     onCopyClicked={() => {
                       setToastOpen(false)
                       window.clearTimeout(timerRef.current)
