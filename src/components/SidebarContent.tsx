@@ -1,5 +1,6 @@
+import * as Toast from "@radix-ui/react-toast"
 import { Box, Button, Flex, Separator, TextField } from "@radix-ui/themes"
-import mixpanel from "mixpanel-browser"
+import React from "react"
 import browser from "webextension-polyfill"
 
 import CollapsibleCard from "./CollapsibleCard"
@@ -48,92 +49,122 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
       </Flex>
     )
   }
+  const [toastOpen, setToastOpen] = React.useState(false)
+  const timerRef = React.useRef(0)
+
+  React.useEffect(() => {
+    return () => clearTimeout(timerRef.current)
+  }, [])
 
   return (
-    <div className="sidebar-content-area container px-2 py-4">
-      <Flex width={`100%`} direction={`column`}>
-        <Flex
-          className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
-          direction="column">
-          <TextField.Root>
-            <TextField.Input
-              className="w-full bg-[#2C2C2C] text-[10.5px]"
-              size={`3`}
-              style={{ padding: "unset" }}
-              value={message}
-              variant="soft"
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </TextField.Root>
-          <Button
-            variant="classic"
-            className={`w-full bg-[#9355F6] text-[11px] transition-all ease-in-out duration-100 
+    <>
+      <Toast.Provider swipeDirection="up">
+        <Toast.Root
+          id="copy-toast"
+          className="w-[320px] h-16 bg-[#9355F6] fixed top-[42px] opacity-75 z-10"
+          open={toastOpen}
+          onOpenChange={setToastOpen}>
+          <Toast.Title className="flex items-center justify-center">
+            🎉 복사 완료 🎉
+          </Toast.Title>
+        </Toast.Root>
+      </Toast.Provider>
+      <Box className="sidebar-content-area container px-2 py-4">
+        <Flex width={`100%`} direction={`column`}>
+          <Flex
+            className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
+            direction="column">
+            <TextField.Root>
+              <TextField.Input
+                className="w-full bg-[#2C2C2C] text-[10.5px]"
+                size={`3`}
+                style={{ padding: "unset" }}
+                value={message}
+                variant="soft"
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </TextField.Root>
+            <Button
+              variant="classic"
+              className={`w-full bg-[#9355F6] text-[11px] transition-all ease-in-out duration-100 
                     ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer"}
                   `}
-            disabled={loading}
-            onClick={handleSearch}>
-            답변 찾기
-          </Button>
-        </Flex>
-      </Flex>
-      <Separator />
-      {loading ? (
-        <Flex
-          className="sidebar-loading-area w-full h-full p-2"
-          direction={`column`}
-          justify={`center`}>
-          <Box className="text-[10px] text-[#7A7A7A] mt-2">
-            가장 적절한 답변을 찾고 있어요.
-          </Box>
-          <Flex direction={`column`} className="w-full" gap={`2`}>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
+              disabled={loading}
+              onClick={handleSearch}>
+              답변 찾기
+            </Button>
           </Flex>
         </Flex>
-      ) : (
-        <Flex
-          className="sidebar-answer-view my-2 bg-[#F5F6F7] p-2 rounded-md"
-          direction="column">
-          <Flex className="text-[9px] text-[#7A7A7A]">
-            <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
-            <Flex className="ml-auto" justify="center" align="center" gap={`2`}>
-              전체
-              <svg
-                width="7"
-                height="4"
-                viewBox="0 0 7 4"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M6 3L3.5 1L1 3"
-                  stroke="#C4C4C4"
-                  stroke-width="0.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+        <Separator />
+        {loading ? (
+          <Flex
+            className="sidebar-loading-area w-full h-full p-2"
+            direction={`column`}
+            justify={`center`}>
+            <Box className="text-[10px] text-[#7A7A7A] mt-2">
+              가장 적절한 답변을 찾고 있어요.
+            </Box>
+            <Flex direction={`column`} className="w-full" gap={`2`}>
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
             </Flex>
           </Flex>
-          {answers && (
-            <Flex
-              direction={`column`}
-              gap={`2`}
-              align={`center`}
-              justify={`center`}
-              className="sidebar-answers w-full py-2">
-              {answers.map((answer, answerIdx) => (
-                <CollapsibleCard
-                  title="환불"
-                  key={answerIdx}
-                  content={answer}
-                />
-              ))}
+        ) : (
+          <Flex
+            className="sidebar-answer-view my-2 bg-[#F5F6F7] p-2 rounded-md"
+            direction="column">
+            <Flex className="text-[9px] text-[#7A7A7A]">
+              <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
+              <Flex
+                className="ml-auto"
+                justify="center"
+                align="center"
+                gap={`2`}>
+                전체
+                <svg
+                  width="7"
+                  height="4"
+                  viewBox="0 0 7 4"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M6 3L3.5 1L1 3"
+                    stroke="#C4C4C4"
+                    stroke-width="0.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </Flex>
             </Flex>
-          )}
-        </Flex>
-      )}
-    </div>
+            {answers && (
+              <Flex
+                direction={`column`}
+                gap={`2`}
+                align={`center`}
+                justify={`center`}
+                className="sidebar-answers w-full py-2">
+                {answers.map((answer, answerIdx) => (
+                  <CollapsibleCard
+                    title="환불"
+                    key={answerIdx}
+                    content={answer}
+                    onCopyClicked={() => {
+                      setToastOpen(false)
+                      window.clearTimeout(timerRef.current)
+                      timerRef.current = window.setTimeout(() => {
+                        setToastOpen(true)
+                      }, 100)
+                    }}
+                  />
+                ))}
+              </Flex>
+            )}
+          </Flex>
+        )}
+      </Box>
+    </>
   )
 }
 

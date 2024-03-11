@@ -1,3 +1,4 @@
+import { on } from "events"
 import { CopyIcon } from "@radix-ui/react-icons"
 import { Box, Flex } from "@radix-ui/themes"
 import React, { useState } from "react"
@@ -5,10 +6,17 @@ import React, { useState } from "react"
 type CardProps = {
   title: string
   content: string
+  onCopyClicked?: () => void
 } & React.HTMLAttributes<HTMLDivElement>
-const CollapsibleCard: React.FC<CardProps> = ({ title, content, ...props }) => {
+const CollapsibleCard: React.FC<CardProps> = ({
+  title,
+  content,
+  onCopyClicked,
+  ...props
+}) => {
   const [isCollapsed, setIsCollapsed] = useState(true)
   const handleCopyClick = () => {
+    onCopyClicked()
     navigator.clipboard.writeText(content)
   }
   const handleMouseEnter = () => {
