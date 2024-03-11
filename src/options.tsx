@@ -9,7 +9,10 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { supabase } from "~core/supabase"
 import type { Database } from "~lib/database.types"
 
-export type Organization = Database["public"]["Tables"]["organizations"]["Row"]
+export type Organization = Pick<
+  Database["public"]["Tables"]["organizations"]["Row"],
+  "id" | "name_eng" | "name_kor" | "key"
+>
 export type OrganizationStorage = {
   availableOrgs: Organization[]
   currentOrg: Organization | undefined
@@ -32,7 +35,7 @@ const buttonStyle = {
 const getOrgs = async (userId: string) => {
   const { data, error } = await supabase
     .from("organizations")
-    .select("*, users!inner(*)")
+    .select("id, name_eng, name_kor, key, users!inner(*)")
     .eq("users.id", userId)
 
   if (error != null) {
