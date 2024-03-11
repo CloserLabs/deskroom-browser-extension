@@ -41,7 +41,11 @@
     "host_permissions": [
       "https://desk.channel.io/*",
       "https://sell.smartstore.naver.com/*",
-      "https://talk.sell.smartstore.naver.com/*"
+      "https://talk.sell.smartstore.naver.com/*",
+      "https://mail.google.com/*",
+      "https://www.thecloudgate.io/dashboard/*",
+      "https://sbadmin01.sabangnet.co.kr/*",
+      "https://artisit.idus.com/message/*"
     ],
     "permissions": [
       "storage"
