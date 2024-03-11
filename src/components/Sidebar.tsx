@@ -12,16 +12,12 @@ import type { User } from "@supabase/supabase-js"
 import deskroomLogo from "data-base64:assets/logo.png"
 import mixpanel from "mixpanel-browser"
 import { useEffect, useState } from "react"
-import browser from "webextension-polyfill"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
-import { useTextSelection } from "~hooks/useTextSelection"
 import type { OrganizationStorage } from "~options"
 
-import CollapsibleCard from "./CollapsibleCard"
 import SidebarContent from "./SidebarContent"
-import Skeleton from "./Sketleton"
 
 type SidebarProps = {
   isOpen: boolean
@@ -59,9 +55,11 @@ const Sidebar: React.FC<
   }, [orgs])
 
   // TODO: make it work
-  // useEffect(() => {
-  //   handleSearch()
-  // }, [isOpen])
+  useEffect(() => {
+    if (isOpen && message) {
+      handleSearch()
+    }
+  }, [isOpen])
 
   const handleSearch = async () => {
     if (!auth) {
