@@ -67,7 +67,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           </TextField.Root>
           <Button
             variant="classic"
-            className={`w-full bg-[#407CF0] text-[11px] transition-all ease-in-out duration-100 
+            className={`w-full bg-[#9355F6] text-[11px] transition-all ease-in-out duration-100 
                     ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer"}
                   `}
             disabled={loading}
