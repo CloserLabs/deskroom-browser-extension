@@ -19,7 +19,11 @@ export const config: PlasmoCSConfig = {
     "https://sell.smartstore.naver.com/*",
     "https://sell.smartstore.naver.com/#/home/about",
     "https://sell.smartstore.naver.com/#/talktalk/chat",
-    "https://talk.sell.smartstore.naver.com/*"
+    "https://talk.sell.smartstore.naver.com/*",
+    "https://mail.google.com/*",
+    "https://www.thecloudgate.io/dashboard/*",
+    "https://sbadmin01.sabangnet.co.kr/*",
+    "https://artisit.idus.com/message/*"
   ],
   run_at: "document_start",
   all_frames: true
