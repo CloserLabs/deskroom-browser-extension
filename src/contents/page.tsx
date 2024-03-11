@@ -47,7 +47,7 @@ export default function Content() {
   }
   return (
     <Theme>
-      <Sidebar isOpen={isOpen} auth={user} />
+      <Sidebar isOpen={isOpen} auth={user} setSidebarOpen={setIsOpen} />
       <Tooltip clickHandler={handleTooltipClick} />
     </Theme>
   )
