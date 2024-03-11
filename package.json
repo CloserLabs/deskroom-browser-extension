@@ -1,7 +1,7 @@
 {
   "name": "deskroom-browser-extension",
   "displayName": "__MSG_extensionName__",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "__MSG_extensionDescription__",
   "author": "Humphrey <ahnsv@bc.edu>",
   "scripts": {
@@ -36,7 +36,7 @@
     "typescript": "5.3.3"
   },
   "manifest": {
-    "name": "__MSG_extensionName__",
+    "name": "Deskroom | 데스크",
     "default_locale": "ko",
     "host_permissions": [
       "https://desk.channel.io/*",
