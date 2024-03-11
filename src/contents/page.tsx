@@ -10,6 +10,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import Sidebar from "~components/Sidebar"
 import Tooltip from "~components/Tooltip"
+import { useTextSelection } from "~hooks/useTextSelection"
 
 export const config: PlasmoCSConfig = {
   matches: [
@@ -34,6 +35,8 @@ export const getStyle = () => {
 export default function Content() {
   const [isOpen, setIsOpen] = useState(false)
   const [user] = useStorage<User>("user")
+  const [question, setQuestion] = useState("")
+  const { text, rects } = useTextSelection()
 
   mixpanel.init(process.env.PLASMO_PUBLIC_MIXPANEL_TOKEN, {
     debug: process.env.PLASMO_TAG !== "prod",
@@ -43,11 +46,20 @@ export default function Content() {
 
   const handleTooltipClick = () => {
     setIsOpen(true)
+    if (text && rects.length > 0) {
+      setQuestion(text)
+    }
     mixpanel.track("Answer Panel Triggered") // TODO: add question in select
   }
   return (
     <Theme>
-      <Sidebar isOpen={isOpen} auth={user} setSidebarOpen={setIsOpen} />
+      <Sidebar
+        isOpen={isOpen}
+        auth={user}
+        setSidebarOpen={setIsOpen}
+        question={question}
+        setMessage={setQuestion}
+      />
       <Tooltip clickHandler={handleTooltipClick} />
     </Theme>
   )

@@ -25,25 +25,18 @@ type SidebarProps = {
   isOpen: boolean
   setSidebarOpen: (isOpen: boolean) => void
   auth: User
+  question: string
+  setMessage: (message: string) => void
   // orgs: OrganizationStorage | null
 }
 
 const Sidebar: React.FC<
   SidebarProps & React.HTMLAttributes<HTMLDivElement>
-> = ({ isOpen, auth, setSidebarOpen }) => {
-  const [message, setMessage] = useState("") // TODO: handle message from parent
+> = ({ isOpen, auth, setSidebarOpen, question: message, setMessage }) => {
   const [answers, setAnswers] = useState<string[] | null | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(false)
   // TODO: set org by select
   const [orgs, setOrgs] = useStorage<OrganizationStorage | null>("orgs")
-
-  const { text, rects } = useTextSelection()
-
-  useEffect(() => {
-    if (text && rects.length > 0) {
-      setMessage(text)
-    }
-  }, [rects])
 
   useEffect(() => {
     mixpanel.track(
