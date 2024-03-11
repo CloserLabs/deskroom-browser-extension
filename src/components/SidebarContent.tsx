@@ -1,5 +1,12 @@
 import * as Toast from "@radix-ui/react-toast"
-import { Box, Button, Flex, Separator, TextField } from "@radix-ui/themes"
+import {
+  Box,
+  Button,
+  DropdownMenu,
+  Flex,
+  Separator,
+  TextField
+} from "@radix-ui/themes"
 import React from "react"
 import browser from "webextension-polyfill"
 
@@ -114,29 +121,38 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           <Flex
             className="sidebar-answer-view my-2 bg-[#F5F6F7] p-2 rounded-md"
             direction="column">
-            <Flex className="text-[9px] text-[#7A7A7A]">
+            <Flex
+              className="text-[9px] text-[#7A7A7A]"
+              align={`center`}
+              justify={`center`}>
               <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
-              <Flex
-                className="ml-auto"
-                justify="center"
-                align="center"
-                gap={`2`}>
-                전체
-                <svg
-                  width="7"
-                  height="4"
-                  viewBox="0 0 7 4"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M6 3L3.5 1L1 3"
-                    stroke="#C4C4C4"
-                    stroke-width="0.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </Flex>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Button className="ml-auto text-[9px]" size={`1`}>
+                    전체
+                    <svg
+                      width="7"
+                      height="4"
+                      viewBox="0 0 7 4"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M6 3L3.5 1L1 3"
+                        stroke="#C4C4C4"
+                        stroke-width="0.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content className="z-10" id="dropdown">
+                  <DropdownMenu.Item>전체</DropdownMenu.Item>
+                  <DropdownMenu.Item>환불</DropdownMenu.Item>
+                  <DropdownMenu.Item>환불</DropdownMenu.Item>
+                  <DropdownMenu.Item>환불</DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             </Flex>
             {answers && (
               <Flex
