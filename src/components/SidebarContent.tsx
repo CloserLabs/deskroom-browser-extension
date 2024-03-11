@@ -93,8 +93,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             </TextField.Root>
             <Button
               variant="classic"
-              className={`w-full bg-[#9355F6] text-[11px] transition-all ease-in-out duration-100 
-                    ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer"}
+              className={`w-full text-[11px] transition-all ease-in-out duration-100 
+                    ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer bg-[#9355F6]"}
                   `}
               disabled={loading}
               onClick={handleSearch}>
@@ -107,14 +107,15 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           <Flex
             className="sidebar-loading-area w-full h-full p-2"
             direction={`column`}
+            align={`center`}
             justify={`center`}>
             <Box className="text-[10px] text-[#7A7A7A] mt-2">
               가장 적절한 답변을 찾고 있어요.
             </Box>
-            <Flex direction={`column`} className="w-full" gap={`2`}>
+            <Flex direction={`column`} className="w-full my-4" gap={`2`}>
               <Skeleton />
-              <Skeleton />
-              <Skeleton />
+              <Skeleton delay={75} />
+              <Skeleton delay={100} />
             </Flex>
           </Flex>
         ) : (
