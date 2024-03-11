@@ -126,9 +126,10 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
               align={`center`}
               justify={`center`}>
               <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
-              <DropdownMenu.Root>
+              {/* TODO: 살리기 */}
+              {/* <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <Button className="ml-auto text-[9px]" size={`1`}>
+                  <Button className="ml-auto tex기-[9px]" size={`1`}>
                     전체
                     <svg
                       width="7"
@@ -152,7 +153,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                   <DropdownMenu.Item>환불</DropdownMenu.Item>
                   <DropdownMenu.Item>환불</DropdownMenu.Item>
                 </DropdownMenu.Content>
-              </DropdownMenu.Root>
+              </DropdownMenu.Root> */}
             </Flex>
             {answers && (
               <Flex
