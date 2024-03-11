@@ -1,7 +1,16 @@
-import { on } from "events"
 import { CopyIcon } from "@radix-ui/react-icons"
 import { Box, Flex } from "@radix-ui/themes"
 import React, { useState } from "react"
+
+function copyToClipboard(content: string) {
+  let copyFrom = document.createElement("textarea")
+  copyFrom.textContent = content
+  document.body.appendChild(copyFrom)
+  copyFrom.select()
+  document.execCommand("copy")
+  copyFrom.blur()
+  document.body.removeChild(copyFrom)
+}
 
 type CardProps = {
   title: string
@@ -17,7 +26,7 @@ const CollapsibleCard: React.FC<CardProps> = ({
   const [isCollapsed, setIsCollapsed] = useState(true)
   const handleCopyClick = () => {
     onCopyClicked()
-    navigator.clipboard.writeText(content)
+    copyToClipboard(content)
   }
   const handleMouseEnter = () => {
     setIsCollapsed(false)
