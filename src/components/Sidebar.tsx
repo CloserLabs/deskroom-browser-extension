@@ -163,16 +163,14 @@ const Sidebar: React.FC<
             <Flex
               className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
               direction="column">
-              <TextField.Root>
-                <TextField.Input
-                  className="w-full bg-[#2C2C2C] text-[10.5px]"
-                  size={`3`}
-                  style={{ padding: "unset" }}
-                  value={message}
-                  variant="soft"
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-              </TextField.Root>
+              <TextArea
+                className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all"
+                size={`1`}
+                style={{ padding: "unset" }}
+                value={message}
+                variant="soft"
+                onChange={(e) => setMessage(e.target.value)}
+              />
             </Flex>
           </Flex>
           <Box className="my-4">
