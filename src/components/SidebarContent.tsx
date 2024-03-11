@@ -50,7 +50,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   }
 
   return (
-    <div className="sidebar-content-area container px-2 py-4">
+    <Box className="sidebar-content-area container px-2 py-4">
       <Flex width={`100%`} direction={`column`}>
         <Flex
           className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
@@ -133,7 +133,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           )}
         </Flex>
       )}
-    </div>
+    </Box>
   )
 }
 
