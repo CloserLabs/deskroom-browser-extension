@@ -1,7 +1,7 @@
 {
   "name": "deskroom-browser-extension",
   "displayName": "__MSG_extensionName__",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "__MSG_extensionDescription__",
   "author": "Humphrey <ahnsv@bc.edu>",
   "scripts": {

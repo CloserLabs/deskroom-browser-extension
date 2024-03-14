@@ -1,7 +1,6 @@
 import { IconButton } from "@radix-ui/themes"
-import deskroomIcon from "data-base64:assets/icon-89.png"
+import deskroomIcon from "data-base64:assets/icon.png"
 import React, { useEffect, useState } from "react"
-import DeskroomIcon from "react:assets/icon.svg"
 
 import { useTextSelection } from "~hooks/useTextSelection"
 
