@@ -126,7 +126,8 @@ function IndexOptions() {
       }
       mixpanel.identify(user.id)
       mixpanel.register({
-        org: orgs?.currentOrg?.key
+        org: orgs?.currentOrg?.key,
+        platform: "chrome-extension"
       })
       mixpanel.people.set({
         $email: user.email,
