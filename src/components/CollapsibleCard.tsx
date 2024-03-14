@@ -33,13 +33,13 @@ const CollapsibleCard: React.FC<CardProps> = ({
   }
   return (
     <Box
-      className="card w-[266px] h-[111px] text-[10.5px] rounded-md shadow-md p-4 bg-white hover:border hover:border-1 hover:border-[#2C2C2C] transition-all ease-in-out duration-75 hover:h-fit"
+      className="card w-full h-fit rounded-md shadow-md p-4 bg-white hover:border hover:border-1 hover:border-[#2C2C2C] transition-all ease-in-out duration-75 hover:h-fit"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => {
         setIsCollapsed(true)
       }}>
       <Flex className="card-header">
-        <Box className="category w-fit p-1 bg-[#E6D7FE] rounded-sm text-[8.5px]">
+        <Box className="category w-fit p-1 bg-[#E6D7FE] rounded-sm text-sm">
           {title}
         </Box>
         <Box
