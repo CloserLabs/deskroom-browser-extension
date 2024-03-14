@@ -1,6 +1,7 @@
-import { ButtonIcon, RocketIcon } from "@radix-ui/react-icons"
 import { IconButton } from "@radix-ui/themes"
+import deskroomIcon from "data-base64:assets/icon-89.png"
 import React, { useEffect, useState } from "react"
+import DeskroomIcon from "react:assets/icon.svg"
 
 import { useTextSelection } from "~hooks/useTextSelection"
 
@@ -14,7 +15,7 @@ const Tooltip: React.FC<TooltipProps> = ({ clickHandler }) => {
   const { text, rects } = useTextSelection()
 
   useEffect(() => {
-    if (text && rects.length > 0) {
+    if (text !== "") {
       const firstRect = rects[0]
       const lastRect = rects[rects.length - 1]
 
@@ -26,21 +27,28 @@ const Tooltip: React.FC<TooltipProps> = ({ clickHandler }) => {
 
       setTooltipPosition({ top: tooltipTop, left: tooltipLeft })
     } else {
-      setTooltipPosition({ top: 0, left: 0 })
+      setTimeout(() => {
+        setTooltipPosition({ top: 0, left: 0 })
+      }, 100)
     }
   }, [text, rects])
 
   return (
     <div
-      className="tooltip fixed bg-violet-500 rounded-full p-2 shadow-lg transition-all hover:shadow-amber-100 ease-linear duration-100 hover:border hover:border-zinc-300"
-      hidden={tooltipPosition.top === 0 && tooltipPosition.left === 0}
+      className={`tooltip flex items-center justify-end fixed transition-opacity ease-linear duration-75 cursor-pointer w-fit h-fit z-50 hover:scale-110 hover:transition-transform rounded-md ${text === "" ? "opacity-0" : "opacity-1"}`}
+      onClick={clickHandler}
       style={{
         top: tooltipPosition.top,
         left: tooltipPosition.left
       }}>
-      <IconButton onClick={clickHandler}>
-        <RocketIcon width={`30`} height={`30`} />
-      </IconButton>
+      <div className="bg-gray-300 p-1 rounded-lg flex-1 cursor-pointer">
+        <IconButton className="cursor-pointer">
+          <img src={deskroomIcon} width={45} height={45} />
+        </IconButton>
+      </div>
+      <div className="w-3 overflow-hidden self-end absolute left-8 bottom-0 cursor-pointer">
+        <div className="h-2 bg-gray-300 rotate-45 transform origin-bottom-left rounded-sm"></div>
+      </div>
     </div>
   )
 }
