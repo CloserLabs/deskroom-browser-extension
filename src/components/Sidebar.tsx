@@ -5,16 +5,15 @@ import {
   Flex,
   IconButton,
   Separator,
-  TextArea,
-  TextField
+  TextArea
 } from "@radix-ui/themes"
 import type { User } from "@supabase/supabase-js"
 import deskroomLogo from "data-base64:assets/logo.png"
-import mixpanel from "mixpanel-browser"
 import { useEffect, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { useMixpanel } from "~contexts/MixpanelContext"
 import type { OrganizationStorage } from "~options"
 
 import SidebarContent from "./SidebarContent"
@@ -42,6 +41,7 @@ const Sidebar: React.FC<
   const [mode, setMode] = useState<"search" | "new">("search")
   const [newAnswer, setNewAnswer] = useState<string>("")
   const [newAnswerLoading, setNewAnswerLoading] = useState<boolean>(false)
+  const mixpanel = useMixpanel()
 
   useEffect(() => {
     mixpanel.track(

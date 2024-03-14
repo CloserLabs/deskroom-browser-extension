@@ -127,7 +127,6 @@ function IndexOptions() {
         })
         console.log({ orgs, user })
       }
-      debugger
       mixpanel.identify(user.id)
     } catch (error) {
       console.log("error", error)
