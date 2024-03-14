@@ -1,13 +1,5 @@
 import * as Toast from "@radix-ui/react-toast"
-import {
-  Box,
-  Button,
-  DropdownMenu,
-  Flex,
-  Separator,
-  TextArea,
-  TextField
-} from "@radix-ui/themes"
+import { Box, Button, Flex, Separator, TextArea } from "@radix-ui/themes"
 import React from "react"
 import browser from "webextension-polyfill"
 
@@ -86,7 +78,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
             direction="column">
             <TextArea
-              className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all"
+              className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all selection:bg-slate-400"
               size={`1`}
               style={{ padding: "unset" }}
               value={message}
