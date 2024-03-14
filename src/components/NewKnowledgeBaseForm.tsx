@@ -36,7 +36,7 @@ const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
           className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
           direction="column">
           <TextArea
-            className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all"
+            className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all selection:bg-slate-400"
             size={`1`}
             style={{ padding: "unset" }}
             value={message}

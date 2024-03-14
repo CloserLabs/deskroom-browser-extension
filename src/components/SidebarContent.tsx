@@ -1,13 +1,5 @@
 import * as Toast from "@radix-ui/react-toast"
-import {
-  Box,
-  Button,
-  DropdownMenu,
-  Flex,
-  Separator,
-  TextArea,
-  TextField
-} from "@radix-ui/themes"
+import { Box, Button, Flex, Separator, TextArea } from "@radix-ui/themes"
 import React from "react"
 import browser from "webextension-polyfill"
 
