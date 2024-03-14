@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { sendToBackground } from "@plasmohq/messaging"
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { MixpanelProvider, useMixpanel } from "~contexts/MixpanelContext"
 import { supabase } from "~core/supabase"
 import type { Database } from "~lib/database.types"
 
@@ -54,11 +55,7 @@ function IndexOptions() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  mixpanel.init(process.env.PLASMO_PUBLIC_MIXPANEL_TOKEN, {
-    debug: true,
-    track_pageview: true,
-    persistence: "localStorage"
-  })
+  const mixpanel = useMixpanel()
 
   useEffect(() => {
     async function init() {
@@ -128,6 +125,13 @@ function IndexOptions() {
         console.log({ orgs, user })
       }
       mixpanel.identify(user.id)
+      mixpanel.register({
+        org: orgs?.currentOrg?.key
+      })
+      mixpanel.people.set({
+        $email: user.email,
+        org: orgs?.currentOrg?.key
+      })
     } catch (error) {
       console.log("error", error)
       alert(error.error_description || error)
@@ -135,84 +139,93 @@ function IndexOptions() {
   }
 
   return (
-    <main
-      className="flex justify-center items-center w-full top-240 relative"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        top: 240,
-        position: "relative",
-        flexDirection: "column",
-        fontSize: 16,
-        fontFamily:
-          "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
-      }}>
-      <h1 className="deskroom-options-title">Deskroom</h1>
-      <div className="deskroom-organization">
-        Organization: {orgs?.currentOrg?.name_kor}
-      </div>
-      <div
-        className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96"
+    <MixpanelProvider
+      token={process.env.PLASMO_PUBLIC_MIXPANEL_TOKEN}
+      config={{
+        debug: process.env.NODE_ENV !== "production",
+        track_pageview: true,
+        persistence: "localStorage"
+      }}
+      name={`deskroom-${process.env.NODE_ENV}`}>
+      <main
+        className="flex justify-center items-center w-full top-240 relative"
         style={{
           display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          top: 240,
+          position: "relative",
           flexDirection: "column",
-          width: 240,
-          justifyContent: "space-between",
-          gap: 4.2
+          fontSize: 16,
+          fontFamily:
+            "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
         }}>
-        {user && (
-          <>
-            <h3>
-              {user.email} - {user.id}
-            </h3>
-            <button
-              style={buttonStyle}
-              onClick={() => {
-                supabase.auth.signOut()
-                setUser(null)
-                setOrgs(null)
-              }}>
-              Logout
-            </button>
-          </>
-        )}
-        {!user && (
-          <>
-            <label>Email</label>
-            <input
-              type="text"
-              placeholder="Your Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+        <h1 className="deskroom-options-title">Deskroom</h1>
+        <div className="deskroom-organization">
+          Organization: {orgs?.currentOrg?.name_kor}
+        </div>
+        <div
+          className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4.2 content-between w-96"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: 240,
+            justifyContent: "space-between",
+            gap: 4.2
+          }}>
+          {user && (
+            <>
+              <h3>
+                {user.email} - {user.id}
+              </h3>
+              <button
+                style={buttonStyle}
+                onClick={() => {
+                  supabase.auth.signOut()
+                  setUser(null)
+                  setOrgs(null)
+                }}>
+                Logout
+              </button>
+            </>
+          )}
+          {!user && (
+            <>
+              <label>Email</label>
+              <input
+                type="text"
+                placeholder="Your Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-            <button
-              style={buttonStyle}
-              onClick={(e) => {
-                handleEmailLogin("SIGNUP", username, password)
-              }}>
-              Sign up
-            </button>
-            <button
-              style={buttonStyle}
-              onClick={(e) => {
-                handleEmailLogin("LOGIN", username, password)
-              }}>
-              Login
-            </button>
-          </>
-        )}
-      </div>
-    </main>
+              <button
+                style={buttonStyle}
+                onClick={(e) => {
+                  handleEmailLogin("SIGNUP", username, password)
+                }}>
+                Sign up
+              </button>
+              <button
+                style={buttonStyle}
+                onClick={(e) => {
+                  handleEmailLogin("LOGIN", username, password)
+                }}>
+                Login
+              </button>
+            </>
+          )}
+        </div>
+      </main>
+    </MixpanelProvider>
   )
 }
 
