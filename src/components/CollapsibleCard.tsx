@@ -48,8 +48,10 @@ const CollapsibleCard: React.FC<CardProps> = ({
           <CopyIcon />
         </Box>
       </Flex>
-      <Flex className="card-content py-2">
-        {isCollapsed ? content.slice(0, 100) + "..." : content}
+      <Flex className={`card-content py-2`}>
+        <p className={`${isCollapsed ? "line-clamp-3" : "line-clamp-none"}`}>
+          {content}
+        </p>
       </Flex>
     </Box>
   )
