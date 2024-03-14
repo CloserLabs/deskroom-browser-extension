@@ -105,9 +105,9 @@ const Sidebar: React.FC<
     <Flex
       id="sidebar"
       direction={`column`}
-      className="fixed w-[320px] bg-white h-screen transition-all right-0 content-between border-1 border container shadow-md">
+      className="fixed w-2/6 bg-white h-screen transition-all right-0 content-between border-1 border container shadow-md">
       <Flex className="sidebar-title-area flex items-center p-2">
-        <img src={deskroomLogo} alt="deskroom logo" className="w-[66px]" />
+        <img src={deskroomLogo} alt="deskroom logo" className="w-24" />
         {orgs?.availableOrgs.length >= 1 && (
           <Flex className="sidebar-organization-select">
             <select
@@ -124,7 +124,7 @@ const Sidebar: React.FC<
                   console.error(err) // NOTE: QUOTA_BYTES_PER_ITEM Error
                 })
               }}
-              className="mx-2 w-fit rounded-md border border-1 text-[8px] border-gray-900 px-[2px] py-[0.5px] h-[16px]">
+              className="mx-2 w-fit rounded-md border border-1 text-xs border-gray-900 px-[2px] py-[0.5px] h-fit">
               {orgs?.availableOrgs.map((org, orgIndex) => (
                 <option value={org.name_kor} key={orgIndex}>
                   {org.name_kor}
@@ -184,7 +184,7 @@ const Sidebar: React.FC<
           </Box>
         ) : (
           <Box
-            className="text-[10px] text-[#7A7A7A] cursor-pointer"
+            className="text-[#7A7A7A] cursor-pointer text-xs"
             onClick={() => {
               setMode("new")
             }}>

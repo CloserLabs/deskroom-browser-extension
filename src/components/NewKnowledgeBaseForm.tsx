@@ -36,7 +36,7 @@ const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
           className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
           direction="column">
           <TextArea
-            className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all selection:bg-slate-400"
+            className="w-full bg-[#2C2C2C] text-wrap break-all selection:bg-slate-400"
             size={`1`}
             style={{ padding: "unset" }}
             value={message}
@@ -56,7 +56,7 @@ const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
       </Box>
       <Box className="text-end">
         <Button
-          className={`w-[65px] h-[38px] rounded-md text-[10px] transiation-all ease-in-out duration-100
+          className={`w-16 h-8 rounded-md text-sm transiation-all ease-in-out duration-100
                 ${newAnswer.length === 0 ? "cursor-not-allowed bg-[#ECECEC] text-[#C4C4C4]" : "cursor-pointer bg-[#2C2C2C] text-white"}
               `}
           onClick={async () => {

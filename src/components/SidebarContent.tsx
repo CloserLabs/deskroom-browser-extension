@@ -33,7 +33,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         justify={`center`}>
         <Flex direction={`column`} align={`center`}>
           <Flex
-            className="text-[10px] text-[#7A7A7A] mt-2"
+            className="text-[#7A7A7A] mt-2"
             direction={`column`}
             justify={`center`}
             align={`center`}>
@@ -41,7 +41,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             <Box>아래 버튼을 눌러 로그인을 완료해주세요.</Box>
           </Flex>
           <Button
-            className="w-full bg-[#9355F6] rounded-md text-[11px] text-white max-w-xs my-2"
+            className="w-full bg-[#9355F6] rounded-md text-white max-w-xs my-2"
             onClick={() => {
               const optionsURL = browser.runtime.getURL("options.html")
               window.open(optionsURL, "_blank", "noopener, noreferrer")
@@ -78,7 +78,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
             direction="column">
             <TextArea
-              className="w-full bg-[#2C2C2C] text-[10.5px] text-wrap break-all selection:bg-slate-400"
+              className="w-full bg-[#2C2C2C] text-wrap break-all selection:bg-slate-400"
               size={`1`}
               style={{ padding: "unset" }}
               value={message}
@@ -87,7 +87,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             />
             <Button
               variant="classic"
-              className={`w-full text-[11px] transition-all ease-in-out duration-100 
+              className={`w-full transition-all ease-in-out duration-100 
                     ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer bg-[#9355F6]"}
                   `}
               disabled={loading}
@@ -103,7 +103,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             direction={`column`}
             align={`center`}
             justify={`center`}>
-            <Box className="text-[10px] text-[#7A7A7A] mt-2">
+            <Box className="text text-[#7A7A7A] mt-2">
               가장 적절한 답변을 찾고 있어요.
             </Box>
             <Flex direction={`column`} className="w-full my-4" gap={`2`}>
@@ -117,7 +117,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             className="sidebar-answer-view my-2 bg-[#F5F6F7] p-2 rounded-md"
             direction="column">
             <Flex
-              className="text-[9px] text-[#7A7A7A]"
+              className="text-sm text-[#7A7A7A]"
               align={`center`}
               justify={`center`}>
               <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
