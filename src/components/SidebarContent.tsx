@@ -11,6 +11,8 @@ import {
 import React from "react"
 import browser from "webextension-polyfill"
 
+import { useMixpanel } from "~contexts/MixpanelContext"
+
 import CollapsibleCard from "./CollapsibleCard"
 import type { Answer } from "./Sidebar"
 import Skeleton from "./Sketleton"
@@ -60,7 +62,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   }
   const [toastOpen, setToastOpen] = React.useState(false)
   const timerRef = React.useRef(0)
-
+  const mixpanel = useMixpanel()
   React.useEffect(() => {
     return () => clearTimeout(timerRef.current)
   }, [])
@@ -174,6 +176,9 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                       timerRef.current = window.setTimeout(() => {
                         setToastOpen(true)
                       }, 100)
+                      mixpanel.track("Answer Copied", {
+                        question: message
+                      })
                       alert("복사되었습니다.")
                     }}
                   />

@@ -36,7 +36,7 @@
     "typescript": "5.3.3"
   },
   "manifest": {
-    "name": "Deskroom | 데스크",
+    "name": "__MSG_extensionName__",
     "default_locale": "ko",
     "host_permissions": [
       "https://desk.channel.io/*",
