@@ -76,7 +76,7 @@ const Sidebar: React.FC<
     mixpanel.track("Answer Search Started", { question: message })
     const res = await fetch(`https://api.closer.so/v1/retrieve/`, {
       body: JSON.stringify({
-        organization_name: orgs?.currentOrg.key,
+        organization_key: orgs?.currentOrg.key,
         question: message
       }),
       headers: {
