@@ -23,7 +23,10 @@ export const config: PlasmoCSConfig = {
     "https://mail.google.com/*",
     "https://www.thecloudgate.io/dashboard/*",
     "https://sbadmin01.sabangnet.co.kr/*",
-    "https://artisit.idus.com/message/*"
+    "https://artisit.idus.com/message/*", 
+    "https://center-pf.kakao.com/*",
+    "https://business.kakao.com/*",
+    "https://workspace.gitple.io/*"
   ],
   run_at: "document_start",
   all_frames: true
