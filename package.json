@@ -1,7 +1,7 @@
 {
   "name": "deskroom-browser-extension",
   "displayName": "__MSG_extensionName__",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "__MSG_extensionDescription__",
   "author": "Humphrey <ahnsv@bc.edu>",
   "scripts": {
@@ -45,7 +45,15 @@
       "https://mail.google.com/*",
       "https://www.thecloudgate.io/dashboard/*",
       "https://sbadmin01.sabangnet.co.kr/*",
-      "https://artisit.idus.com/message/*"
+      "https://artisit.idus.com/message/*",
+      "https://admin.moji.cool/*",
+      "https://mail.daum.net/*",
+      "https://appstoreconnect.apple.com/apps/*",
+      "https://play.google.com/store/apps/*",
+      "https://dcamp.kr/admin/content/*",
+      "https://business.kakao.com/dashboard/*",
+      "https://center-pf.kakao.com/*",
+      "https://workspace.gitple.io/*"      
     ],
     "permissions": [
       "storage"
