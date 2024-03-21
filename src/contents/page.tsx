@@ -24,9 +24,14 @@ export const config: PlasmoCSConfig = {
     "https://www.thecloudgate.io/dashboard/*",
     "https://sbadmin01.sabangnet.co.kr/*",
     "https://artisit.idus.com/message/*", 
+    "https://admin.moji.cool/*",
+    "https://mail.daum.net/*",
+    "https://appstoreconnect.apple.com/apps/*",
+    "https://play.google.com/store/apps/*",
+    "https://dcamp.kr/admin/content/*",
+    "https://business.kakao.com/dashboard/*",
     "https://center-pf.kakao.com/*",
-    "https://business.kakao.com/*",
-    "https://workspace.gitple.io/*"
+    "https://workspace.gitple.io/*"      
   ],
   run_at: "document_start",
   all_frames: true
