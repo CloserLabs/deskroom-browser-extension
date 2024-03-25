@@ -31,7 +31,10 @@ export const config: PlasmoCSConfig = {
     "https://dcamp.kr/admin/content/*",
     "https://business.kakao.com/dashboard/*",
     "https://center-pf.kakao.com/*",
-    "https://workspace.gitple.io/*"      
+    "https://workspace.gitple.io/*",
+    "https://dcamp.kr/*",
+    "https://play.google.com/*",
+    "https://www.thecloudgate.io/*"
   ],
   run_at: "document_start",
   all_frames: true
