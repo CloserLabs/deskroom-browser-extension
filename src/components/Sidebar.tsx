@@ -45,10 +45,12 @@ const Sidebar: React.FC<
   const mixpanel = useMixpanel()
 
   useEffect(() => {
-    mixpanel.track(
-      isOpen ? "Answer Panel Activated" : "Answer Panel Deactivated",
-      { question: message }
-    )
+    if (!!message) {
+      mixpanel.track(
+        isOpen ? "Answer Panel Activated" : "Answer Panel Deactivated",
+        { question: message }
+      )
+    }
   }, [isOpen])
 
   useEffect(() => {
