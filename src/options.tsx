@@ -1,6 +1,5 @@
 import type { User } from "@supabase/supabase-js"
 import tailwindcssText from "data-text:~style.css"
-import mixpanel from "mixpanel-browser"
 import { useEffect, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
@@ -103,9 +102,9 @@ function IndexOptions() {
       } =
         type === "LOGIN"
           ? await supabase.auth.signInWithPassword({
-              email: username,
-              password
-            })
+            email: username,
+            password
+          })
           : await supabase.auth.signUp({ email: username, password })
 
       if (error) {
