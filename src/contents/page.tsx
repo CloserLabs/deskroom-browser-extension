@@ -34,7 +34,9 @@ export const config: PlasmoCSConfig = {
     "https://workspace.gitple.io/*",
     "https://dcamp.kr/*",
     "https://play.google.com/*",
-    "https://www.thecloudgate.io/*"
+    "https://www.thecloudgate.io/*",
+    "https://admin.dcamp.kr/*",
+    "https://*.notion.site/*"
   ],
   run_at: "document_start",
   all_frames: true
