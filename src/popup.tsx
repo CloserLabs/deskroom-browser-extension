@@ -1,12 +1,11 @@
 import type { User } from "@supabase/supabase-js"
-import radixUIText from "data-text:@radix-ui/themes/styles.css"
-import tailwindcssText from "data-text:~style.css"
 import deskroomLogo from "data-base64:assets/logo.png"
 import "./style.css"
+import "data-text:@radix-ui/themes/styles.css"
 
 import { useStorage } from "@plasmohq/storage/hook"
 import { Box, Button, Flex, IconButton, Separator, TextField } from "@radix-ui/themes"
-import { ArrowTopRightIcon } from "@radix-ui/react-icons"
+import { ArrowTopRightIcon, GearIcon } from "@radix-ui/react-icons"
 import type { OrganizationStorage } from "~options"
 import browser from "webextension-polyfill"
 
@@ -14,7 +13,6 @@ import browser from "webextension-polyfill"
 export const getStyle = () => {
   const style = document.createElement("style")
   style.textContent += radixUIText
-  style.textContent += tailwindcssText
   return style
 }
 
@@ -25,7 +23,12 @@ function IndexPopup() {
   return (
     <Flex className="w-60 h-64 px-4 py-2">
       <Flex className="container" direction="column">
-        <img src={deskroomLogo} alt="deskroom logo" className="w-20 my-2" />
+        <Flex direction="row" style={{ display: "flex" }}>
+          <img src={deskroomLogo} alt="deskroom logo" className="w-20 my-2" />
+          <IconButton className="ml-auto hover:bg-gray-100 px-2">
+            <GearIcon />
+          </IconButton>
+        </Flex>
         <Flex className="py-2" gap="3">
           <Box className="my-2 flex flex-col">
             <label htmlFor="org" className="text-gray-400">소속</label>
