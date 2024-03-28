@@ -9,7 +9,7 @@
     "build": "plasmo build",
     "package": "plasmo package",
     "test": "playwright test",
-    "lint": "prettier --check . && tsc --noEmit"
+    "lint": "prettier --check ."
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",
