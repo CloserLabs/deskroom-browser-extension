@@ -53,7 +53,7 @@
       "https://dcamp.kr/admin/content/*",
       "https://business.kakao.com/dashboard/*",
       "https://center-pf.kakao.com/*",
-      "https://workspace.gitple.io/*"      
+      "https://workspace.gitple.io/*"
     ],
     "permissions": [
       "storage"

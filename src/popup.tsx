@@ -40,7 +40,7 @@ function IndexPopup() {
             <input type="text" id="account" value={user?.email || ""} placeholder="로그인 된 계정" disabled />
           </Box>
         </Flex>
-        <Button className="w-full rounded bg-blue-700 py-2 text-white" onClick={() => {
+        <Button className="w-full rounded bg-primary-900 py-2 text-white" onClick={() => {
           setUser(null);
           setOrgs(null);
           const optionsURL = browser.runtime.getURL("options.html")
