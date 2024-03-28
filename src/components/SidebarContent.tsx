@@ -41,7 +41,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             <Box>아래 버튼을 눌러 로그인을 완료해주세요.</Box>
           </Flex>
           <Button
-            className="w-full bg-[#9355F6] rounded-md text-white max-w-xs my-2"
+            className="w-full bg-primary-900 rounded-md text-white max-w-xs my-2"
             onClick={() => {
               const optionsURL = browser.runtime.getURL("options.html")
               window.open(optionsURL, "_blank", "noopener, noreferrer")
@@ -87,8 +87,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             />
             <Button
               variant="classic"
-              className={`w-full transition-all ease-in-out duration-100 
-                    ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer bg-[#9355F6]"}
+              className={`w-full transition-all ease-in-out duration-100 text-xs
+                    ${loading ? "cursor-not-allowed bg-[#4A4A4A] text-[#7A7A7A]" : "cursor-pointer bg-primary-900"}
                   `}
               disabled={loading}
               onClick={handleSearch}>
@@ -103,10 +103,10 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
             direction={`column`}
             align={`center`}
             justify={`center`}>
-            <Box className="text text-[#7A7A7A] mt-2">
+            <Box className="text text-[#7A7A7A] mt-2 text-xs">
               가장 적절한 답변을 찾고 있어요.
             </Box>
-            <Flex direction={`column`} className="w-full my-4" gap={`2`}>
+            <Flex direction={`column`} className="w-full my-2" gap={`2`}>
               <Skeleton />
               <Skeleton delay={75} />
               <Skeleton delay={100} />
@@ -120,7 +120,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
               className="text-sm text-[#7A7A7A]"
               align={`center`}
               justify={`center`}>
-              <Box className="font-bold">⚡ 추천 답변 ⚡</Box>
+              <Box className="font-bold text-xs">⚡ 추천 답변 ⚡</Box>
               {/* TODO: 살리기 */}
               {/* <DropdownMenu.Root>
                 <DropdownMenu.Trigger>

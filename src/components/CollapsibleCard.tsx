@@ -39,7 +39,7 @@ const CollapsibleCard: React.FC<CardProps> = ({
         setIsCollapsed(true)
       }}>
       <Flex className="card-header">
-        <Box className="category w-fit p-1 bg-[#E6D7FE] rounded-sm text-sm">
+        <Box className="category w-fit py-1 px-2 bg-primary-100 text-primary-700 font-bold rounded-sm text-sm">
           {title}
         </Box>
         <Box

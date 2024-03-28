@@ -4,7 +4,7 @@ type SkeletonProps = {
 const Skeleton: React.FC<SkeletonProps> = ({ delay = 0 }) => {
   return (
     <div
-      className={`border border-slate-200 shadow rounded-md py-4 px-2 max-w-sm w-full mx-auto
+      className={`border border-slate-200 shadow rounded-md py-4 px-2 w-full mx-auto
       ${delay !== 0 && `delay-${delay}`}
     `}>
       <div className="animate-pulse flex space-x-4">
