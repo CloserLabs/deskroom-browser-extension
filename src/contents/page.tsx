@@ -1,16 +1,16 @@
-import { Theme } from "@radix-ui/themes"
-import type { User } from "@supabase/supabase-js"
-import radixUIText from "data-text:@radix-ui/themes/styles.css"
-import tailwindcssText from "data-text:~style.css"
-import type { PlasmoCSConfig } from "plasmo"
-import { useState } from "react"
+import { Theme } from "@radix-ui/themes";
+import type { User } from "@supabase/supabase-js";
+import radixUIText from "data-text:@radix-ui/themes/styles.css";
+import tailwindcssText from "data-text:~style.css";
+import type { PlasmoCSConfig } from "plasmo";
+import { useState } from "react";
 
-import { useStorage } from "@plasmohq/storage/hook"
+import { useStorage } from "@plasmohq/storage/hook";
 
-import Sidebar from "~components/Sidebar"
-import Tooltip from "~components/Tooltip"
-import { MixpanelProvider, useMixpanel } from "~contexts/MixpanelContext"
-import { useTextSelection } from "~hooks/useTextSelection"
+import Sidebar from "~components/Sidebar";
+import Tooltip from "~components/Tooltip";
+import { MixpanelProvider, useMixpanel } from "~contexts/MixpanelContext";
+import { useTextSelection } from "~hooks/useTextSelection";
 
 export const config: PlasmoCSConfig = {
   matches: [
@@ -23,7 +23,7 @@ export const config: PlasmoCSConfig = {
     "https://mail.google.com/*",
     "https://www.thecloudgate.io/dashboard/*",
     "https://sbadmin01.sabangnet.co.kr/*",
-    "https://artisit.idus.com/message/*", 
+    "https://artisit.idus.com/message/*",
     "https://admin.moji.cool/*",
     "https://mail.daum.net/*",
     "https://appstoreconnect.apple.com/apps/*",
@@ -36,34 +36,34 @@ export const config: PlasmoCSConfig = {
     "https://play.google.com/*",
     "https://www.thecloudgate.io/*",
     "https://admin.dcamp.kr/*",
-    "https://*.notion.site/*"
+    "https://*.notion.site/*",
   ],
   run_at: "document_start",
-  all_frames: true
-}
+  all_frames: true,
+};
 
 export const getStyle = () => {
-  const style = document.createElement("style")
-  style.textContent += radixUIText
-  style.textContent += tailwindcssText
-  return style
-}
+  const style = document.createElement("style");
+  style.textContent += radixUIText;
+  style.textContent += tailwindcssText;
+  return style;
+};
 
 export default function Content() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [user] = useStorage<User>("user")
-  const [question, setQuestion] = useState("")
-  const { text, rects } = useTextSelection()
+  const [isOpen, setIsOpen] = useState(false);
+  const [user] = useStorage<User>("user");
+  const [question, setQuestion] = useState("");
+  const { text, rects } = useTextSelection();
 
-  const mixpanel = useMixpanel()
+  const mixpanel = useMixpanel();
 
   const handleTooltipClick = () => {
-    setIsOpen(true)
+    setIsOpen(true);
     if (text && rects.length > 0) {
-      setQuestion(text)
+      setQuestion(text);
     }
-    mixpanel.track("Answer Panel Triggered") // TODO: add question in select
-  }
+    mixpanel.track("Answer Panel Triggered"); // TODO: add question in select
+  };
 
   return (
     <MixpanelProvider
@@ -71,9 +71,10 @@ export default function Content() {
       config={{
         debug: process.env.NODE_ENV !== "production",
         track_pageview: true,
-        persistence: "localStorage"
+        persistence: "localStorage",
       }}
-      name={`deskroom-${process.env.NODE_ENV}`}>
+      name={`deskroom-${process.env.NODE_ENV}`}
+    >
       <Theme>
         <Sidebar
           isOpen={isOpen}
@@ -85,5 +86,5 @@ export default function Content() {
         <Tooltip clickHandler={handleTooltipClick} />
       </Theme>
     </MixpanelProvider>
-  )
+  );
 }

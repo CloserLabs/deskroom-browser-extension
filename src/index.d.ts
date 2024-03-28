@@ -1,3 +1,3 @@
 interface Window {
-  mainMessage: string
+  mainMessage: string;
 }

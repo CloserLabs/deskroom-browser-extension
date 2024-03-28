@@ -1,10 +1,10 @@
-import { createClient } from "@supabase/supabase-js"
+import { createClient } from "@supabase/supabase-js";
 
-import { Storage } from "@plasmohq/storage"
+import { Storage } from "@plasmohq/storage";
 
 const storage = new Storage({
-  area: "local"
-})
+  area: "local",
+});
 
 export const supabase = createClient(
   process.env.PLASMO_PUBLIC_SUPABASE_URL,
@@ -14,7 +14,7 @@ export const supabase = createClient(
       storage,
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: true
-    }
+      detectSessionInUrl: true,
+    },
   }
-)
+);

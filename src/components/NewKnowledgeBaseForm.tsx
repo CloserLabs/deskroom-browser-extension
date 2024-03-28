@@ -1,19 +1,19 @@
-import { Box, Button, Flex, TextArea } from "@radix-ui/themes"
-import { useEffect } from "react"
+import { Box, Button, Flex, TextArea } from "@radix-ui/themes";
+import { useEffect } from "react";
 
-import { useMixpanel } from "~contexts/MixpanelContext"
-import type { OrganizationStorage } from "~options"
+import { useMixpanel } from "~contexts/MixpanelContext";
+import type { OrganizationStorage } from "~options";
 
 type NewKnowledgeBaseFormProps = {
-  message: string
-  setMessage: (message: string) => void
-  newAnswer: string
-  setNewAnswer: (newAnswer: string) => void
-  newAnswerLoading: boolean
-  setNewAnswerLoading: (newAnswerLoading: boolean) => void
-  setMode: (mode: "search" | "new") => void
-  orgs: OrganizationStorage | null
-}
+  message: string;
+  setMessage: (message: string) => void;
+  newAnswer: string;
+  setNewAnswer: (newAnswer: string) => void;
+  newAnswerLoading: boolean;
+  setNewAnswerLoading: (newAnswerLoading: boolean) => void;
+  setMode: (mode: "search" | "new") => void;
+  orgs: OrganizationStorage | null;
+};
 
 const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
   message,
@@ -23,18 +23,19 @@ const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
   newAnswerLoading,
   setNewAnswerLoading,
   setMode,
-  orgs
+  orgs,
 }) => {
-  const mixpanel = useMixpanel()
+  const mixpanel = useMixpanel();
   useEffect(() => {
-    mixpanel.track("Knowledge Item Add Page Viewed", {})
-  }, [])
+    mixpanel.track("Knowledge Item Add Page Viewed", {});
+  }, []);
   return (
     <Box className="container px-2 py-4">
       <Flex width={`100%`} direction={`column`}>
         <Flex
           className="bg-[#2C2C2C] w-full rounded px-2 py-4 text-white"
-          direction="column">
+          direction="column"
+        >
           <TextArea
             className="w-full bg-[#2C2C2C] text-wrap break-all selection:bg-slate-400"
             size={`1`}
@@ -52,49 +53,56 @@ const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
           value={newAnswer}
           onChange={(e) => setNewAnswer(e.target.value)}
           size={`1`}
-          rows={15}></TextArea>
+          rows={15}
+        ></TextArea>
       </Box>
       <Box className="text-end">
         <Button
           className={`w-16 h-8 rounded-md text-sm transiation-all ease-in-out duration-100
-                ${newAnswer.length === 0 ? "cursor-not-allowed bg-[#ECECEC] text-[#C4C4C4]" : "cursor-pointer bg-[#2C2C2C] text-white"}
+                ${
+                  newAnswer.length === 0
+                    ? "cursor-not-allowed bg-[#ECECEC] text-[#C4C4C4]"
+                    : "cursor-pointer bg-[#2C2C2C] text-white"
+                }
               `}
           onClick={async () => {
-            setNewAnswerLoading(true)
+            setNewAnswerLoading(true);
             fetch(`https://api.deskroom.so/v1/knowledge/new`, {
               method: "POST",
               body: JSON.stringify({
                 org_key: orgs?.currentOrg.key,
                 question: message,
-                answer: newAnswer
+                answer: newAnswer,
               }),
               headers: {
-                "Content-Type": "application/json"
-              }
+                "Content-Type": "application/json",
+              },
             })
               .then((res) => {
                 if (res.ok) {
-                  setNewAnswerLoading(false)
-                  alert("답변이 성공적으로 등록되었습니다.")
-                  setMode("search")
+                  setNewAnswerLoading(false);
+                  alert("답변이 성공적으로 등록되었습니다.");
+                  setMode("search");
                   mixpanel.track("Knowledge Item Added", {
                     question: message,
-                    answer: newAnswer
-                  })
+                    answer: newAnswer,
+                  });
                 }
               })
               .catch((err) => {
-                setNewAnswerLoading(false)
-                alert("답변 등록에 실패했습니다. Error: " + err)
-              })
-          }}>
+                setNewAnswerLoading(false);
+                alert("답변 등록에 실패했습니다. Error: " + err);
+              });
+          }}
+        >
           {newAnswerLoading ? (
             <svg
               aria-hidden="true"
               className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
               viewBox="0 0 100 101"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                 fill="currentColor"
@@ -110,6 +118,6 @@ const NewKnowledgeBaseForm: React.FC<NewKnowledgeBaseFormProps> = ({
         </Button>
       </Box>
     </Box>
-  )
-}
-export default NewKnowledgeBaseForm
+  );
+};
+export default NewKnowledgeBaseForm;
