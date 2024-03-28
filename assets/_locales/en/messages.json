@@ -1,14 +1,14 @@
 {
-    "extensionName": {
-      "message": "Deskroom Extension",
-      "description": "Name of the extension."
-    },
-    "extensionDescription": {
-      "message": "Deskroom makes us closer",
-      "description": "Description of the extension."
-    },
-    "popup": {
-      "message": "Deskroom makes us closer",
-      "description": "Popup message."
-    }
+  "extensionName": {
+    "message": "Deskroom Extension",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Deskroom makes us closer",
+    "description": "Description of the extension."
+  },
+  "popup": {
+    "message": "Deskroom makes us closer",
+    "description": "Popup message."
   }
+}

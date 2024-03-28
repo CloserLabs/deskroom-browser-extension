@@ -1,14 +1,14 @@
 {
-    "extensionName": {
-      "message": "데스크룸 (Deskroom)",
-      "description": "익스텐션 이름"
-    },
-    "extensionDescription": {
-      "message": "데스크룸 (Deskroom)은 더 가까워지는 공간을 만들어줍니다.",
-      "description": "익스텐션 설명"
-    },
-    "popup": {
-      "message": "데스크룸 (Deskroom)",
-      "description": "팝업 제목"
-    }
+  "extensionName": {
+    "message": "데스크룸 (Deskroom)",
+    "description": "익스텐션 이름"
+  },
+  "extensionDescription": {
+    "message": "데스크룸 (Deskroom)은 더 가까워지는 공간을 만들어줍니다.",
+    "description": "익스텐션 설명"
+  },
+  "popup": {
+    "message": "데스크룸 (Deskroom)",
+    "description": "팝업 제목"
+  }
 }

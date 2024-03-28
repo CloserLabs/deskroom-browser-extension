@@ -2,10 +2,10 @@ name: Playwright Tests
 
 on:
   push:
-    branches: 
+    branches:
       - main
   pull_request:
-    branches: 
+    branches:
       - main
 
 jobs:
@@ -13,29 +13,29 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 20
-        cache: "yarn"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
 
-    - name: Install Playwright Browsers
-      run: npx playwright install chromium --with-deps
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
 
-    - name: Install
-      run: |
-        yarn install --frozen-lockfile --immutable
+      - name: Install
+        run: |
+          yarn install --frozen-lockfile --immutable
 
-    - name: Env file
-      run: |
-        echo "PLASMO_PUBLIC_SUPABASE_URL=${{ secrets.PLASMO_PUBLIC_SUPABASE_URL }}" >> .env
-        echo "PLASMO_PUBLIC_SUPABASE_KEY=${{ secrets.PLASMO_PUBLIC_SUPABASE_KEY }}" >> .env
-        echo "PLASMO_PUBLIC_MIXPANEL_TOKEN=${{ secrets.PLASMO_PUBLIC_MIXPANEL_TOKEN }}" >> .env
+      - name: Env file
+        run: |
+          echo "PLASMO_PUBLIC_SUPABASE_URL=${{ secrets.PLASMO_PUBLIC_SUPABASE_URL }}" >> .env
+          echo "PLASMO_PUBLIC_SUPABASE_KEY=${{ secrets.PLASMO_PUBLIC_SUPABASE_KEY }}" >> .env
+          echo "PLASMO_PUBLIC_MIXPANEL_TOKEN=${{ secrets.PLASMO_PUBLIC_MIXPANEL_TOKEN }}" >> .env
 
-    - name: Build
-      run: |
-        yarn build --zip
+      - name: Build
+        run: |
+          yarn build --zip
 
-    - name: Run Playwright tests
-      run: yarn test --reporter github
+      - name: Run Playwright tests
+        run: yarn test --reporter github
