@@ -56,7 +56,14 @@
       "https://dcamp.kr/admin/content/*",
       "https://business.kakao.com/dashboard/*",
       "https://center-pf.kakao.com/*",
-      "https://workspace.gitple.io/*"
+      "https://workspace.gitple.io/*",
+      "https://counselor.happytalk.io/*",
+      "https://wing.coupang.com/*",
+      "https://dcamp.kr/*",
+      "https://play.google.com/*",
+      "https://www.thecloudgate.io/*",
+      "https://admin.dcamp.kr/*",
+      "https://*.notion.site/*"
     ],
     "permissions": [
       "storage"
