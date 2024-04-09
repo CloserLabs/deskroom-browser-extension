@@ -1,3 +1,7 @@
+> [!CAUTION]
+> Repo is moved to [CloserLabs/deskroom](https://github.com/CloserLabs/deskroom)
+
+
 # Deskroom Browser Extension
 
 This is a browser extension that makes us closer.
